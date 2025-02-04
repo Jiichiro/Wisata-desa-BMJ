@@ -24,7 +24,8 @@ export const metadata: Metadata = {
     images: "",
     type: "article",
     locale: "id_ID"
-  }
+  },
+google-site-verification:"5s9jNWqGy_xhRvYqDU8HKEEgfO8a7ldNub5kcKIxOYA",
 };
 
 export default function RootLayout({
