@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { ReactNode } from "react";
-import {} from "next/font/google";
 
 export default function Home(): ReactNode {
   return (
@@ -45,10 +44,10 @@ export default function Home(): ReactNode {
 
       <section className="bg-gray-950 w-full py-80">
         <div className="grid grid-cols-3 gap-10 w-full px-72 mx-auto">
-          <Image src={'https://placehold.co/300x300/webp'} alt="" width={300} height={300} className="bg-black w-full h-60 aspect-square rounded-xl"></Image>
-          <Image src={'https://placehold.co/720x480/webp'} alt="" width={720} height={480} className="bg-black w-full h-60 col-span-2 aspect-[2/1] rounded-xl"></Image>
-          <Image src={'https://placehold.co/720x480/webp'} alt="" width={720} height={480} className="bg-black w-full h-60 col-span-2 aspect-[2/1] rounded-xl"></Image>
-          <Image src={'https://placehold.co/300x300/webp'} alt="" width={300} height={300} className="bg-black w-full h-60 aspect-square rounded-xl"></Image>
+          <Image src={'https://placehold.co/300x300/webp'} alt="" width={230} height={240} className="bg-black w-full h-60 aspect-square rounded-xl"></Image>
+          <Image src={'https://placehold.co/720x480/webp'} alt="" width={499} height={240} className="bg-black w-full h-60 col-span-2 aspect-[2/1] rounded-xl"></Image>
+          <Image src={'https://placehold.co/720x480/webp'} alt="" width={499} height={240} className="bg-black w-full h-60 col-span-2 aspect-[2/1] rounded-xl"></Image>
+          <Image src={'https://placehold.co/300x300/webp'} alt="" width={230} height={240} className="bg-black w-full h-60 aspect-square rounded-xl"></Image>
         </div>
       </section>
     </>
