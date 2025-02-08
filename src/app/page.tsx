@@ -1,6 +1,5 @@
 import Image from "next/image";
 import { ReactNode } from "react";
-import {} from "next/font/google";
 
 export default function Home(): ReactNode {
   return (
