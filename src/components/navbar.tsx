@@ -1,11 +1,11 @@
-import { Search } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactNode } from 'react';
 
 const Navbar = (): ReactNode => {
   return (
-    <nav className="flex items-center justify-between py-4 px-72">
+    <nav className="flex items-center justify-between py-4 px-10 md:px-36 xl:px-72">
         <Link href="/" className="flex items-center space-x-4">
             <Image src="https://placehold.co/40x40/webp" alt="LOGO" width={40} height={40} />
         </Link>
@@ -16,7 +16,7 @@ const Navbar = (): ReactNode => {
                 <Link href="#" className="hover:underline underline-offset-4">Find accommodation</Link>
                 <Link href="#" className="hover:underline underline-offset-4">Plan your trip</Link>
             </div>
-            <Search className='h-6 w-6 text-gray-500 hover:text-white transition duration-150'/> 
+            <Menu className='md:hidden h-6 w-6 text-gray-500 hover:text-white transition duration-150'/> 
             <div className="relative">
             </div>
         </div>
