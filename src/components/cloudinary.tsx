@@ -20,7 +20,6 @@ export default function Cloudinary({ src, className, width = 1920, height = 1080
             alt={alt}
             className={className}
             crop="auto"
-
         />
     )
 }
