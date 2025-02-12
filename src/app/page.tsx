@@ -1,4 +1,3 @@
-
 import Cloudinary from "@/components/cloudinary";
 import { ReactNode } from "react";
 
@@ -26,29 +25,14 @@ export default function Home(): ReactNode {
             Menuju Lokasi
           </a>
         </div>
-        <div className="hidden md:block absolute bottom-0 w-full bg-black bg-opacity-75 py-4">
-          <div className="flex justify-center space-x-4">
-            <a className="text-white hover:underline" href="#">
-              North Island destinations
-            </a>
-            <span className="text-white">|</span>
-            <a className="text-white hover:underline" href="#">
-              South Island destinations
-            </a>
-            <span className="text-white">|</span>
-            <a className="text-white hover:underline" href="#">
-              Explore all regions
-            </a>
-          </div>
-        </div>
       </section>
 
-      <section className="bg-gray-950 w-full px-10 md:px-36 xl:px-72 py-80">
+      <section className="flex bg-gray-950 px-auto py-52 justify-center">
         <div className="grid grid-cols-3 gap-10">
-          <Cloudinary src='sample' alt="" width={230} height={240} className="bg-black object-cover h-40 aspect-4/5 rounded-xl"></Cloudinary>
-          <Cloudinary src='samples/landscapes/nature-mountains' alt="" width={499} height={240} className="bg-black object-cover h-40 col-span-2 aspect-20/9 rounded-xl"></Cloudinary>
-          <Cloudinary src='samples/landscapes/girl-urban-view' alt="" width={499} height={240} className="bg-black object-cover h-40 col-span-2 aspect-20/9 rounded-xl"></Cloudinary>
-          <Cloudinary src='samples/landscapes/architecture-signs' alt="" width={230} height={240} className="bg-black object-cover h-40 aspect-4/5 rounded-xl"></Cloudinary>
+          <Cloudinary src='sample' alt="sample" width={230} height={240} className="bg-black object-coverrm h-40 aspect-4/5 rounded-xl"></Cloudinary>
+          <Cloudinary src='samples/landscapes/nature-mountains' alt="sample" width={499} height={240} className="bg-black object-coverrm h-40 col-span-2 aspect-16/9 rounded-xl"></Cloudinary>
+          <Cloudinary src='samples/landscapes/girl-urban-view' alt="sample" width={499} height={240} className="bg-black object-coverrm h-40 col-span-2 aspect-16/9 rounded-xl"></Cloudinary>
+          <Cloudinary src='samples/landscapes/architecture-signs' alt="sample" width={230} height={240} className="bg-black object-coverrm h-40 aspect-4/5 rounded-xl"></Cloudinary>
         </div>
       </section>
     </>

@@ -11,7 +11,7 @@ interface CloudyProps {
     alt?: string;
 }
 
-export default function Cloudinary({ src, className, width = 1920, height = 1080, alt = "sample" }: CloudyProps) : ReactNode {
+export default function Cloudinary({ src, className = "", width = 1920, height = 1080, alt = "sample" }: CloudyProps) : ReactNode {
     return (
         <CldImage 
             src={src}
