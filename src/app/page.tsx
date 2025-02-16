@@ -34,6 +34,19 @@ const Home: FC = async () => {
   return (
     <>
       <section className="relative h-banner-mobile xl:h-banner-desktop">
+        {/* <CloudinaryVideo 
+          src="wisata desa/Video yg sudh di edit/rwa3iusebybmtqyrzsii"
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+        /> */}
+        {/* <iframe
+          width="560"
+          height="315"
+          src="https://www.youtube.com/embed/6AtjivlS9Ao?autoplay=1&mute=1&loop=1&playlist=6AtjivlS9Ao&&controls=0&modestbranding=1&iv_load_policy=3&fs=0&rel=0"
+          frameBorder="0"
+          allow="autoplay; encrypted-media"
+          className="absolute inset-0 w-full h-full object-cover opacity-50"
+        ></iframe> */}
+
         <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-50">
           <source src="/videos/Homepage-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
