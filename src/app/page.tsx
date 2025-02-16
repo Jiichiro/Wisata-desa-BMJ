@@ -1,7 +1,35 @@
 import Cloudinary from "@/components/cloudinary";
-import { ReactNode } from "react";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { Oswald } from "next/font/google";
+import { FC } from "react";
 
-export default function Home(): ReactNode {
+const oswald = Oswald({
+  weight: "700",
+  subsets: ["latin", "latin-ext"]
+})
+
+interface ImageData {
+  src: string;
+  width: number;
+  height: number;
+}
+
+const images: ImageData[][] = [
+  [
+    { src: "sample", width: 230, height: 240 },
+    { src: "wisata desa/Foto/l2vc0aftuhtbvdhudqb4", width: 499, height: 240 },
+    { src: "samples/landscapes/girl-urban-view", width: 499, height: 240 },
+    { src: "samples/landscapes/architecture-signs", width: 230, height: 240 },
+  ],
+  [
+    { src: "sample", width: 230, height: 240 },
+    { src: "samples/landscapes/nature-mountains", width: 499, height: 240 },
+    { src: "samples/landscapes/girl-urban-view", width: 499, height: 240 },
+    { src: "samples/landscapes/architecture-signs", width: 230, height: 240 },
+  ],
+];
+
+const Home: FC = async () => {
   return (
     <>
       <section className="relative h-banner">
@@ -13,28 +41,53 @@ export default function Home(): ReactNode {
           width={1920}
         />
         <div className="absolute inset-0 flex flex-col px-10 md:px-36 xl:px-72 pt-10 md:pt-36 xl:justify-center">
-          <div className="text-4xl md:text-5xl xl:text-6xl font-bold leading-none">
+          <div className={`text-4xl md:text-5xl xl:text-6xl font-bold leading-none ${oswald.className}`}>
             <h2>WISATA</h2>
             <h2>DESA</h2>
             <h2>BMJ</h2>
           </div>
           <p className="mt-4 text-lg max-w-lg">
-          CFV5+94F, Sudirman number No.2, Jlaget, Randugenengan, Kec. Dlanggu, Kabupaten Mojokerto, Jawa Timur 61371
+            CFV5+94F, Sudirman number No.2, Jlaget, Randugenengan, Kec. Dlanggu,
+            Kabupaten Mojokerto, Jawa Timur 61371
           </p>
-          <a href={'https://www.google.com/maps/dir//CFV5%2B94F+Wisata+Desa+BMJ+Mojopahit,+Sudirman+number+No.2,+Jlaget,+Randugenengan,+Kec.+Dlanggu,+Kabupaten+Mojokerto,+Jawa+Timur+61371/@-7.5555276,112.4589283,21z/data=!4m9!4m8!1m0!1m5!1m1!1s0x2e7872f1f5fb5795:0x6b044cb0fa0d1600!2m2!1d112.4589789!2d-7.5555893!3e0?entry=ttu&g_ep=EgoyMDI1MDIwNS4xIKXMDSoASAFQAw%3D%3D'} target="_blank" className="mt-6 px-6 py-3 bg-green-600 text-white rounded-xl w-40">
+          <a
+            href="https://www.google.com/maps/dir//CFV5%2B94F+Wisata+Desa+BMJ+Mojopahit,+Sudirman+number+No.2,+Jlaget,+Randugenengan,+Kec.+Dlanggu,+Kabupaten+Mojokerto,+Jawa+Timur+61371"
+            target="_blank"
+            className="mt-6 px-6 py-3 bg-green-600 text-white rounded-xl w-40"
+          >
             Menuju Lokasi
           </a>
         </div>
       </section>
-
-      <section className="flex bg-gray-950 px-auto py-52 justify-center">
-        <div className="grid grid-cols-3 gap-10">
-          <Cloudinary src='sample' alt="sample" width={230} height={240} className="bg-black object-coverrm h-40 aspect-4/5 rounded-xl"></Cloudinary>
-          <Cloudinary src='samples/landscapes/nature-mountains' alt="sample" width={499} height={240} className="bg-black object-coverrm h-40 col-span-2 aspect-16/9 rounded-xl"></Cloudinary>
-          <Cloudinary src='samples/landscapes/girl-urban-view' alt="sample" width={499} height={240} className="bg-black object-coverrm h-40 col-span-2 aspect-16/9 rounded-xl"></Cloudinary>
-          <Cloudinary src='samples/landscapes/architecture-signs' alt="sample" width={230} height={240} className="bg-black object-coverrm h-40 aspect-4/5 rounded-xl"></Cloudinary>
-        </div>
+      <section className="bg-gray-950 mx-auto px-10 py-52 flex flex-col self-center">
+        <h2 className={`self-center text-2xl md:text-3xl xl:text-4xl font-bold leading-none pb-10 ${oswald.className}`}>SEKILAS GALERI</h2>
+        <ScrollArea className="flex h-96 whitespace-nowrap overflow-x-auto">
+          <div className="flex gap-10 justify-center">
+            {images.map((row, i) => (
+              <div className="grid grid-cols-3 gap-10 w-gallery" key={i}>
+                {row.map((image, j) => (
+                  <Cloudinary
+                    key={j}
+                    src={image.src}
+                    alt={image.src}
+                    width={image.width}
+                    height={image.height}
+                    className={`bg-black w-fit object-cover h-40 ${
+                      j === 1 || j === 2
+                        ? "col-span-2 aspect-16/9"
+                        : "aspect-4/5"
+                    } rounded-xl`}
+                  />
+                ))}
+              </div>
+            ))}
+          </div>
+          <ScrollBar orientation="horizontal" />
+        </ScrollArea>
       </section>
     </>
   );
-}
+};
+
+export default Home;
+export const dynamic = "force-static"; // Paksa menjadi Static Rendering
