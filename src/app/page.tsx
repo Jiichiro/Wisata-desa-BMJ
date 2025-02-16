@@ -1,12 +1,13 @@
-import Cloudinary from "@/components/cloudinary";
+import { CloudinaryImage } from "@/components/cloudinary";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Oswald } from "next/font/google";
+// import Image from "next/image";
 import { FC } from "react";
 
 const oswald = Oswald({
   weight: "700",
-  subsets: ["latin", "latin-ext"]
-})
+  subsets: ["latin", "latin-ext"],
+});
 
 interface ImageData {
   src: string;
@@ -32,16 +33,22 @@ const images: ImageData[][] = [
 const Home: FC = async () => {
   return (
     <>
-      <section className="relative h-banner">
-        <Cloudinary
+      <section className="relative h-banner-mobile xl:h-banner-desktop">
+        <video autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover opacity-50">
+          <source src="/videos/Homepage-video.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        {/* <Image
           alt="Blurred background of nature with trees and water"
           className="absolute inset-0 w-full h-full object-cover opacity-50"
           height={1080}
-          src="cld-sample-2"
+          src="/image/Homepage-video.gif"
           width={1920}
-        />
+        /> */}
         <div className="absolute inset-0 flex flex-col px-10 md:px-36 xl:px-72 pt-10 md:pt-36 xl:justify-center">
-          <div className={`text-4xl md:text-5xl xl:text-6xl font-bold leading-none ${oswald.className}`}>
+          <div
+            className={`text-4xl md:text-5xl xl:text-6xl font-bold leading-none ${oswald.className}`}
+          >
             <h2>WISATA</h2>
             <h2>DESA</h2>
             <h2>BMJ</h2>
@@ -60,13 +67,17 @@ const Home: FC = async () => {
         </div>
       </section>
       <section className="bg-gray-950 mx-auto px-10 py-52 flex flex-col self-center">
-        <h2 className={`self-center text-2xl md:text-3xl xl:text-4xl font-bold leading-none pb-10 ${oswald.className}`}>SEKILAS GALERI</h2>
+        <h2
+          className={`self-center text-2xl md:text-3xl xl:text-4xl font-bold leading-none pb-10 ${oswald.className}`}
+        >
+          SEKILAS GALERI
+        </h2>
         <ScrollArea className="flex h-96 whitespace-nowrap overflow-x-auto">
           <div className="flex gap-10 justify-center">
             {images.map((row, i) => (
               <div className="grid grid-cols-3 gap-10 w-gallery" key={i}>
                 {row.map((image, j) => (
-                  <Cloudinary
+                  <CloudinaryImage
                     key={j}
                     src={image.src}
                     alt={image.src}

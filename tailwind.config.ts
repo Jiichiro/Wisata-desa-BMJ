@@ -53,7 +53,8 @@ export default {
   			}
   		},
   		height: {
-  			banner: '750px',
+  			'banner-desktop': '750px',
+  			'banner-mobile': '530px',
   		},
   		borderRadius: {
   			lg: 'var(--radius)',

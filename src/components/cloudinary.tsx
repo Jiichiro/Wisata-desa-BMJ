@@ -1,6 +1,6 @@
 'use client'
 
-import { CldImage } from "next-cloudinary"
+import { CldImage, CldVideoPlayer } from "next-cloudinary"
 import { ReactNode } from "react";
 
 interface CloudyProps {
@@ -11,7 +11,7 @@ interface CloudyProps {
     alt?: string;
 }
 
-export default function Cloudinary({ src, className = "", width = 1920, height = 1080, alt = "sample" }: CloudyProps) : ReactNode {
+const CloudinaryImage = ({ src, className = "", width = 1920, height = 1080, alt = "sample" }: CloudyProps) : ReactNode => {
     return (
         <CldImage 
             src={src}
@@ -23,3 +23,18 @@ export default function Cloudinary({ src, className = "", width = 1920, height =
         />
     )
 }
+
+const CloudinaryVideo = ({ src, className = "", width = 1920, height = 1080}: CloudyProps) : ReactNode => {
+    return (
+        <CldVideoPlayer 
+            src={src}
+            width={width}
+            height={height}
+            autoPlay 
+            controls={false}
+            className={className}
+        />
+    )
+}
+
+export {CloudinaryImage, CloudinaryVideo}
