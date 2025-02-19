@@ -5,6 +5,8 @@ import Navbar from "@/components/navbar";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "@/components/footer";
+import { AnimatePresence } from "motion/react";
+import { ThemeProvider } from "next-themes";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,13 +46,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased scrollbar-hide`}
       >
-        <Navbar />
-        <main className="w-full">{children}</main>
-        <Footer />
+        <ThemeProvider attribute={"class"} defaultTheme="system" enableSystem>
+          <Navbar />
+          <AnimatePresence mode="sync">
+            <main className="w-full">{children}</main>
+          </AnimatePresence>
+          <Footer />
+        </ThemeProvider>
         <Analytics />
         <SpeedInsights />
       </body>

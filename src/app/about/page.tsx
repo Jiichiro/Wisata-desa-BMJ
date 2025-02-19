@@ -1,14 +1,13 @@
 import { Metadata } from "next";
-import { ReactNode } from "react";
+import AboutPage from "./ui";
 
-export const metadata: Metadata = {
-  title: 'About'
+export const metadata:Metadata = {
+  title: 'About',
+  keywords: ['tentang bmj', 'apa itu wisata desa bmj']
 }
 
-export default function Page():ReactNode {
-      return (
-        <>
-          <p className="text-3xl text-center font-bold underline mt-10 ">About Page</p>
-        </>
-      );
+export default function About() {
+  return (
+    <AboutPage />
+  )
 }
