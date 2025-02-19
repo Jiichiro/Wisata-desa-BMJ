@@ -1,9 +1,9 @@
-import { Facebook, Instagram } from "lucide-react";
+import { Facebook, Instagram, Mail, MapPin, PhoneCall } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="px-8 py-12 w-full bg-gray-900">
-      <div className="flex flex-col md:grid md:grid-cols-5 gap-8 pb-12 border-b border-gray-800">
+    <footer className="px-8 py-12 w-full bg-gray-800">
+      <div className="flex flex-col md:grid md:grid-cols-5 gap-8 pb-12 border-b border-gray-950">
         <div className="col-span-2">
           <h2 className="text-2xl font-bold text-white mb-4">
             Wisata Desa BMJ
@@ -74,28 +74,26 @@ export default function Footer() {
             </li>
           </ul>
         </div>
-        <div>
+        <div className="col-span-2">
           <h3 className="text-lg font-semibold text-white mb-4">Contact Us</h3>
-          <ul className="space-y-2">
-            <li className="flex items-center text-gray-400">
-              <span className="material-symbols-outlined mr-2">
-                location_on
-              </span>
-              123 Business Street
+          <ul className="space-y-2 gap-3">
+            <li className="flex items-center text-gray-400 gap-3">
+              <MapPin />
+              Jl Sudirman number No.2, Mojokerto, Jawa Timur 61371
             </li>
-            <li className="flex items-center text-gray-400">
-              <span className="material-symbols-outlined mr-2">phone</span>
-              +1 234 567 8900
+            <li className="flex items-center text-gray-400 gap-3">
+              <PhoneCall />
+              +62 857-4957-4107
             </li>
-            <li className="flex items-center text-gray-400">
-              <span className="material-symbols-outlined mr-2">email</span>
-              info@company.com
+            <li className="flex items-center text-gray-400 gap-3">
+              <Mail />
+              timkreatifwd@gmail.com
             </li>
           </ul>
         </div>
       </div>
       <div className="pt-4 text-center text-gray-400">
-        <p>&copy; 2025 SMAGU. All rights reserved.</p>
+        <p>&copy; 2025 SMAKGU. All rights reserved.</p>
       </div>
     </footer>
   );
