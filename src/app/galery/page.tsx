@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Gallery from "./ui";
 
 export const metadata: Metadata = {
   title: "Galery",
@@ -6,10 +7,8 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <>
-      <p className="text-3xl text-center font-bold underline mt-10 ">
-        Galery Page
-      </p>
-    </>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center">
+      <Gallery />
+    </div>
   );
 }

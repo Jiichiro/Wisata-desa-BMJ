@@ -2,10 +2,9 @@
 
 import React from "react";
 import { motion } from "motion/react";
-import { Users, Clock, Trophy } from "lucide-react";
+import { Bed, Blocks, CircleParking, Theater, Toilet, WavesLadder } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import Image from "next/image";
-import { CloudinaryImage } from "@/components/cloudinary";
 import { Timeline } from "flowbite-react";
 
 const fadeIn = {
@@ -25,22 +24,32 @@ const staggerChildren = {
 const AboutPage = () => {
   const features = [
     {
-      icon: <Users className="w-6 h-6" />,
-      title: "Expert Guides",
-      description:
-        "Our team of experienced local guides ensures authentic and immersive experiences in every destination.",
+      icon: <Toilet className="w-6 h-6" />,
+      title: "toilet",
     },
     {
-      icon: <Clock className="w-6 h-6" />,
-      title: "24/7 Support",
-      description:
-        "Travel with peace of mind knowing our dedicated support team is always just a call away.",
+      icon: <WavesLadder className="w-6 h-6" />,
+      title: "Kolam Renang Anak-anak & Dewasa",
     },
     {
-      icon: <Trophy className="w-6 h-6" />,
-      title: "Best Value",
-      description:
-        "We negotiate the best rates and partnerships to offer you unbeatable value for your adventure.",
+      icon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" className="w-6 h-6 text-white"><path d="M0 480c0 17.62 14.38 32 32 32h64c17.62 0 32-14.38 32-32V160H0V480zM579.1 288C597 270.6 608 250.6 608 229.1c0-52.88-41.75-93.88-87.88-122.9c-42-26.5-80.63-57.88-112-96.25L400 0l-8.125 10c-31.38 38.38-70 69.75-112 96.25C233.8 135.3 192 176.3 192 229.1C192 250.6 203 270.6 220.9 288H579.1zM64 0c0 0-64 32-64 96v32h128V96C128 32 64 0 64 0zM608 320H192c-17.6 0-32 14.4-32 32v160h64v-64c0-17.62 14.38-32 32-32s32 14.38 32 32v64h64v-72c0-48 48-72 48-72s48 24 48 72V512h64v-64c0-17.62 14.38-32 32-32s32 14.38 32 32v64h64v-160C640 334.4 625.6 320 608 320z" fill="#FFFFFF" stroke="#FFFFFF"/></svg>,
+      title: "Masjid",
+    },
+    {
+      icon: <CircleParking className="w-6 h-6" />,
+      title: "tempat Parkir",
+    },
+    {
+      icon: <Theater className="w-6 h-6" />,
+      title: "Panggung",
+    },
+    {
+      icon: <Blocks className="w-6 h-6" />,
+      title: "Tempat Bermain Anak-anak",
+    },
+    {
+      icon: <Bed className="w-6 h-6" />,
+      title: "penginapan",
     },
   ];
 
@@ -70,14 +79,14 @@ const AboutPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
       {/* Hero Section */}
-      <motion.div
+      <motion.section
         className="relative h-[70vh] flex items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <CloudinaryImage
-          src="wisata desa/Foto/c6x5fcjvznmmigxprpu4"
+        <Image
+          src="https://res.cloudinary.com/dlw8ltf9c/image/upload/f_auto,q_auto/v1/wisata%20desa/Foto/c6x5fcjvznmmigxprpu4"
           alt="Hero background"
           className="absolute inset-0 w-full h-full object-cover opacity-50"
           width={1920}
@@ -92,10 +101,10 @@ const AboutPage = () => {
         >
           Wisataku , Wisatamu , Wisatane Wong Akeh
         </motion.h1>
-      </motion.div>
+      </motion.section>
 
       {/* Our Story Section */}
-      <motion.div
+      <motion.section
         className="max-w-7xl mx-auto px-4 py-16"
         variants={staggerChildren}
         initial="initial"
@@ -106,12 +115,13 @@ const AboutPage = () => {
             Timeline Wisata Desa BMJ Mojopahit
           </h1>
           <div className=" md:grid md:grid-cols-2 md:gap-14 relative">
-            <CloudinaryImage
-              src="wisata desa/Foto/kzahlyhb4acycsmrwk0a"
+            <Image
+              src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/w_2000,h_3000,c_auto/f_auto,q_auto/v1/wisata%20desa/Foto/kzahlyhb4acycsmrwk0a`}
               alt="timeline"
-              className="rounded-lg shadow-lg w-full self-center"
-              width={2000}
+              className="rounded-lg shadow-lg w-full self-center bg-cover"
+              width={1000}
               height={3000}
+              layout="responsive"
             />
             <Timeline>
               {[
@@ -179,7 +189,7 @@ const AboutPage = () => {
         </div>
 
         {/* Features Section */}
-        <motion.div
+        <motion.section
           className="mt-24"
           variants={staggerChildren}
           initial="initial"
@@ -187,7 +197,7 @@ const AboutPage = () => {
           viewport={{ once: true }}
         >
           <h2 className="text-3xl font-bold text-gray-800 dark:text-white mb-12 text-center">
-            Why Choose Us
+            Fasilitas Yang Kami Sediakan
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {features.map((feature, index) => (
@@ -200,15 +210,12 @@ const AboutPage = () => {
                     <h3 className="text-xl font-semibold mb-2 dark:text-white">
                       {feature.title}
                     </h3>
-                    <p className="text-gray-600 dark:text-gray-300">
-                      {feature.description}
-                    </p>
                   </CardContent>
                 </Card>
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </motion.section>
 
         {/* Team Section */}
         <motion.div
@@ -247,7 +254,7 @@ const AboutPage = () => {
             ))}
           </div>
         </motion.div>
-      </motion.div>
+      </motion.section>
     </div>
   );
 };
