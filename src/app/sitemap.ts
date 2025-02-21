@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const domain: string = process.env.NEXT_PUBLIC_IS_STAGING == 'YES' ?  'http://localhost:3000' : 'https://wisatadesa.vercel.app'
+  const domain: string | undefined = process.env.NEXT_PUBLIC_IS_STAGING == 'YES' ?  'http://localhost:3000' : process.env.NEXT_PUBLIC_APP_DOMAIN
   return [
     {
       url: `${domain}`,
@@ -20,3 +20,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 }
+
+export const dynamic = 'force-static';
