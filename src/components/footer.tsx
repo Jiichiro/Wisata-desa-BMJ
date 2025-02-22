@@ -3,14 +3,13 @@ import { Facebook, Instagram, Mail, MapPin, PhoneCall } from "lucide-react";
 export default function Footer() {
   return (
     <footer className="px-8 py-12 w-full bg-gray-800">
-      <div className="flex flex-col md:grid md:grid-cols-5 gap-8 pb-12 border-b border-gray-950">
+      <div className="flex flex-col md:grid md:grid-cols-4 gap-8 pb-12 border-b border-gray-950">
         <div className="col-span-2">
           <h2 className="text-2xl font-bold text-white mb-4">
             Wisata Desa BMJ
           </h2>
           <p className="text-gray-400 mb-6">
-            CFV5+94F, Sudirman number No.2, Jlaget, Randugenengan, Kec. Dlanggu,
-            Kabupaten Mojokerto, Jawa Timur 61371
+            Jika anda penasaran apa yang telah kami lakukan selama ini, anda bisa melihat melalui postingan media sosial kami yang tertera dibawah ini
           </p>
           <div className="flex space-x-4">
             <a href="https://m.facebook.com/wisatadesa.dlanggu/">
@@ -36,43 +35,6 @@ export default function Footer() {
               <Instagram className="text-2xl text-gray-400 hover:text-white transition-colors duration-300" />
             </a>
           </div>
-        </div>
-        <div>
-          <h3 className="text-lg font-semibold text-white mb-4">Fasilitas</h3>
-          <ul className="space-y-2">
-            <li>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-300"
-              >
-                Web Design
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-300"
-              >
-                Development
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-300"
-              >
-                Marketing
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="text-gray-400 hover:text-white transition-colors duration-300"
-              >
-                Consulting
-              </a>
-            </li>
-          </ul>
         </div>
         <div className="col-span-2">
           <h3 className="text-lg font-semibold text-white mb-4">Contact Us</h3>

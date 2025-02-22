@@ -17,18 +17,18 @@ interface linkData {
 const links: linkData[] = [
   {
     href: "/",
-    name: "Home",
+    name: "Beranda",
     icon: <Home />,
   },
   {
     href: "/about",
-    name: "About",
+    name: "Tentang Kami",
     icon: <Info />,
   },
   {
     href: "/galery",
-    name: "Gallery",
-    icon: <Images />,
+    name: "Galeri",
+    icon: <Images />, 
   },
 ];
 

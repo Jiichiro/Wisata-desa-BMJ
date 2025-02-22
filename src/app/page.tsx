@@ -1,6 +1,9 @@
+import { CloudinaryImage } from "@/components/cloudinary";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Oswald } from "next/font/google";
-import Image from "next/image";
+import Link from "next/link";
 import { FC } from "react";
 
 const oswald = Oswald({
@@ -16,16 +19,16 @@ interface ImageData {
 
 const images: ImageData[][] = [
   [
-    { src: "sample", width: 230, height: 240 },
+    { src: "wisata desa/Foto/zuegazevm0qishbwkvyd", width: 230, height: 240 },
     { src: "wisata desa/Foto/l2vc0aftuhtbvdhudqb4", width: 499, height: 240 },
-    { src: "samples/landscapes/girl-urban-view", width: 499, height: 240 },
-    { src: "samples/landscapes/architecture-signs", width: 230, height: 240 },
+    { src: "wisata desa/Foto/wlhpt9zjp61v78sz3ihn", width: 499, height: 240 },
+    { src: "wisata desa/Foto/vxhfunxncvitm2mf93cb", width: 230, height: 240 },
   ],
   [
-    { src: "sample", width: 230, height: 240 },
-    { src: "samples/landscapes/nature-mountains", width: 499, height: 240 },
-    { src: "samples/landscapes/girl-urban-view", width: 499, height: 240 },
-    { src: "samples/landscapes/architecture-signs", width: 230, height: 240 },
+    { src: "wisata desa/Foto/hzxhtstlm1i6g2nzp4pv", width: 230, height: 240 },
+    { src: "wisata desa/Foto/icxoph3gkswjks8jnntq", width: 499, height: 240 },
+    { src: "wisata desa/Foto/kzahlyhb4acycsmrwk0a", width: 499, height: 240 },
+    { src: "wisata desa/Foto/bvkm1a6eeabch4a14ujs", width: 230, height: 240 },
   ],
 ];
 
@@ -49,9 +52,9 @@ const Home: FC = async () => {
           <div
             className={`text-4xl md:text-5xl xl:text-6xl font-bold leading-none ${oswald.className}`}
           >
-            <h2>WISATA</h2>
-            <h2>DESA</h2>
-            <h2>BMJ</h2>
+            <h1>WISATA</h1>
+            <h1>DESA</h1>
+            <h1>BMJ</h1>
           </div>
           <p className="mt-4 text-lg max-w-lg text-gray-200 dark:text-gray-300">
             CFV5+94F, Sudirman number No.2, Jlaget, Randugenengan, Kec. Dlanggu,
@@ -61,44 +64,44 @@ const Home: FC = async () => {
             href="https://www.google.com/maps/dir//CFV5%2B94F+Wisata+Desa+BMJ+Mojopahit,+Sudirman+number+No.2,+Jlaget,+Randugenengan,+Kec.+Dlanggu,+Kabupaten+Mojokerto,+Jawa+Timur+61371"
             target="_blank"
             className="mt-6 px-6 py-3 bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white rounded-xl w-40 transition-colors duration-200"
+            rel="noopener noreferrer"
           >
             Menuju Lokasi
           </a>
         </div>
       </section>
-      <section className="grid max-w-screen-xl mx-auto md:grid-cols-2 gap-12 items-center px-6 sm:px-12 md:px-24 lg:px-48 xl:px-72 pt-20 md:pt-28 bg-gray-200 dark:bg-gray-950">
+
+      <section className="grid md:grid-cols-2 gap-12 items-center px-10 md:px-36 xl:px-72 pt-28 bg-gray-200 dark:bg-gray-950">
         <div>
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-800 dark:text-white mb-4 md:mb-6">
+          <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 dark:text-white mb-3">
             Wisata Desa BMJ Mojopahit
           </h2>
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-3 md:mb-4">
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
             Merupakan salah satu Wisata Unggulan di Jawa Timur yang berada di
             Desa Randugenengan, Kecamatan Dlanggu Kabupaten Mojokerto - Jawa
             Timur. Wisata Desa mengusung Elemen-Elemen Kerajaan Majapahit di
             dalamnya.
           </p>
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-3 md:mb-4">
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
             Wisata Desa BMJ Mojopahit memiliki ikon unik yaitu Patung Mahapatih
-            Gajah Mada yang mendapat REKOR MURI sebagai Patung Gajah Mada
+            Gajah Mada yang mendapat <span className="font-extrabold underline underline-offset-3">REKOR MURI</span> sebagai Patung Gajah Mada
             Terbesar dan Tertinggi dengan total tinggi 23 meter.
           </p>
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-3 md:mb-4">
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed mb-2">
             Wisata Desa BMJ Mojopahit mempunyai daya tarik sendiri bagi
             wisatawan lokal maupun dari luar daerah di Mojokerto dan
             mancanegara.
           </p>
-          <p className="text-gray-600 dark:text-gray-300 leading-relaxed">
+          <p className="text-sm md:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
             Kami telah melayani pengunjung selama 21 tahun hingga saat ini.
             Adalah sebuah kebanggaan dan prioritas utama untuk menjaga kualitas
             pelayanan kami kepada Anda dari berbagai daerah.
           </p>
         </div>
-        <Image
-          src={`https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/f_auto,q_auto/v1/wisata%20desa/Foto/fzqopymhl6fkx0hnzjna`}
+        <CloudinaryImage
+          src="wisata desa/Foto/fzqopymhl6fkx0hnzjna"
           alt="Our story"
-          className="rounded-lg shadow-lg w-full max-w-md md:max-w-lg mx-auto"
-          width={1080}
-          height={1920}
+          className="rounded-lg shadow-lg w-full mx-auto"
         />
       </section>
 
@@ -113,7 +116,7 @@ const Home: FC = async () => {
             {images.map((row, i) => (
               <div className="grid grid-cols-3 gap-10 w-gallery" key={i}>
                 {row.map((image, j) => (
-                  <Image
+                  <CloudinaryImage
                     key={j}
                     src={image.src}
                     alt={image.src}
@@ -134,6 +137,31 @@ const Home: FC = async () => {
             className="bg-gray-200 dark:bg-gray-800"
           />
         </ScrollArea>
+      </section>
+      <section className="flex justify-center px-10 md:px-36 xl:px-72 pb-28 bg-gray-200 dark:bg-gray-950">
+        <Card className="w-fit text-center p-16 bg-slate-800">
+          <h5 className="text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+            Ingin tahu lebih tentang Kami?
+          </h5>
+          <p className="font-normal text-gray-700 dark:text-gray-400">
+            Terdapat beberapa fasilitas yang kami sediakan dan Timeline Kami dimulai dari awal didirikan sampai saat ini
+          </p>
+          <Button className="mt-5 bg-blue-600 font-bold text-white hover:text-black transition-all duration-300">
+            <Link href={'/about'}>tentang Kami</Link>
+            <svg
+              className="-mr-1 ml-2 h-4 w-4"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                clipRule="evenodd"
+              />
+            </svg>
+          </Button>
+        </Card>
       </section>
     </>
   );

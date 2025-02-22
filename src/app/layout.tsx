@@ -28,16 +28,21 @@ export const metadata: Metadata = {
   keywords: [
     "wisata desa",
     "wisata desa bmj",
-    "wisata desa mojopahit",
-    "wisata desa majapahit",
-    "wisata desa di jawa timur",
+    "wisata mojopahit",
+    "wisata majapahit",
+    "wisata di jawa timur",
     "wisata cokelat",
   ],
   openGraph: {
     images: "",
     type: "article",
     locale: "id_ID",
+    countryName: 'id',
+    emails: "timkreatifwd@gmail.com",
   },
+  alternates: {
+    canonical: "https://wisatadesabmj.web.id/"
+  }
 };
 
 export default function RootLayout({
