@@ -9,7 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
-import { motion } from "motion/react"; // Ganti dari motion/react ke framer-motion
+import { motion } from "motion/react";
 import { Oswald } from "next/font/google";
 import { useState } from "react";
 
@@ -85,20 +85,16 @@ const Gallery = () => {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
   const prevImage = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
-    }
+    setSelectedIndex((prev) => ((prev! - 1 + images.length) % images.length));
   };
 
   const nextImage = () => {
-    if (selectedIndex !== null) {
-      setSelectedIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
-    }
+    setSelectedIndex((prev) => ((prev! + 1) % images.length));
   };
 
   return (
     <div className="container mx-auto px-4 py-6 w-full h-full">
-      <h2 className={`text-6xl font-bold text-center mb-4 ${oswald.className}`}>Galeri</h2>
+      <h2 className={`text-5xl font-bold text-center mb-4 ${oswald.className}`}>Galeri</h2>
       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
         {images.map((image, index) => (
           <motion.div
@@ -122,7 +118,6 @@ const Gallery = () => {
         ))}
       </div>
 
-      {/* Modal untuk menampilkan gambar lebih besar */}
       <Dialog
         open={selectedIndex !== null}
         onOpenChange={() => setSelectedIndex(null)}
@@ -132,7 +127,6 @@ const Gallery = () => {
           onClick={() => setSelectedIndex(null)}
         >
           <DialogContent
-            // className="relative bg-white rounded-lg p-2 w-full max-w-lg mx-auto sm:max-w-3xl sm:p-4"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -151,14 +145,10 @@ const Gallery = () => {
                   className="w-full h-auto rounded-md"
                   width={images[selectedIndex].width}
                   height={images[selectedIndex].height}
-                  // initial={{ opacity: 0, scale: 0.9 }}
-                  // animate={{ opacity: 1, scale: 1 }}
-                  // transition={{ duration: 0.3 }}
                 />
               </>
             )}
 
-            {/* Navigasi geser */}
             {selectedIndex !== null && (
               <>
                 <button
