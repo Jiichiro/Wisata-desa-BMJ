@@ -55,7 +55,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="pt-4 text-center text-gray-400">
-        <p>&copy; 2025 SMAKGU. All rights reserved.</p>
+        <p>&copy; 2025 Wisata Desa BMJ Mojopahit. All rights reserved.</p>
       </div>
     </footer>
   );
