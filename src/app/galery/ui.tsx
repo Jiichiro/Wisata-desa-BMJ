@@ -79,6 +79,24 @@ const images = [
     width: 3060,
     height: 4080,
   },
+  {
+    src: "wisata desa/Foto/l2vc0aftuhtbvdhudqb4",
+    alt: "Bagian depan WD",
+    width: 4080,
+    height: 3060,
+  },
+  {
+    src: "wisata desa/Foto/gauaetthykpjqs6jo4uz",
+    alt: "tempat duduk area oleh-oleh",
+    width: 4080,
+    height: 3060,
+  },
+  {
+    src: "wisata desa/Foto/b3zlsrbogkklbbk7ykgt",
+    alt: "foto pajangan",
+    width: 4080,
+    height: 3060,
+  },
 ];
 
 const Gallery = () => {
@@ -94,7 +112,7 @@ const Gallery = () => {
 
   return (
     <div className="container mx-auto px-4 py-6 w-full h-full">
-      <h2 className={`text-5xl font-bold text-center mb-4 ${oswald.className}`}>Galeri</h2>
+      <h2 className={`text-3xl md:text-4xl xl:text-5xl font-bold text-center mb-4 ${oswald.className}`}>Galeri</h2>
       <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 gap-2">
         {images.map((image, index) => (
           <motion.div

@@ -61,7 +61,7 @@ const Navbar = () => {
       <nav className="sticky flex items-center justify-between py-4 px-10 md:px-36 xl:px-72 z-50 bg-white dark:bg-gray-900 transition duration-300">
         <Link href="/" className="flex items-center space-x-4">
           <Image
-            src="https://placehold.co/40x40/webp"
+            src="/images/logo.png"
             alt="LOGO"
             width={40}
             height={40}

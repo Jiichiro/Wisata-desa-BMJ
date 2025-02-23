@@ -167,6 +167,12 @@ const AboutPage = () => {
                   description:
                     "Penambahan fasilitas modern seperti penginapan dan restoran untuk kenyamanan wisatawan.",
                 },
+                {
+                  year: "Sekarang",
+                  title: "Meningkatkan Pelayanan",
+                  description:
+                    "Kami masih akan terus meningkatkan layanan kami untuk mencapai kepuasan pelanggan.",
+                },
               ].map((d, i) => (
                 <motion.div
                   key={i}
@@ -218,7 +224,7 @@ const AboutPage = () => {
         </motion.section>
 
         {/* Team Section */}
-        <motion.div
+        {/*<motion.div
           className="mt-24"
           variants={staggerChildren}
           initial="initial"
@@ -253,7 +259,7 @@ const AboutPage = () => {
               </motion.div>
             ))}
           </div>
-        </motion.div>
+        </motion.div>*/}
       </motion.section>
     </div>
   );
