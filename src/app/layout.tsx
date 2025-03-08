@@ -7,6 +7,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import Footer from "@/components/footer";
 import { AnimatePresence } from "motion/react";
 import { ThemeProvider } from "next-themes";
+import Alert from "@/components/alert";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -58,6 +59,7 @@ export default function RootLayout({
         <ThemeProvider attribute={"class"} defaultTheme="system" enableSystem>
           <Navbar />
           <AnimatePresence mode="sync">
+            <Alert />
             <main className="w-full">{children}</main>
           </AnimatePresence>
           <Footer />
