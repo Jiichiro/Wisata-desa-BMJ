@@ -21,7 +21,7 @@ export default function Alert() {
                         If the owner needs to, delete this website from Google you can contact me via email.
                     </p>
                     <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                        And if you have critism or/and suggestion you can contact me via email. <Link href='mailto:jiichiro@proton.me' className="font-extrabold">jiichiro@proton.me</Link>
+                        And if you have critics or/and suggestion, you can contact me via email. <Link href='mailto:jiichiro@proton.me' className="font-extrabold">jiichiro@proton.me</Link>
                     </p>
                 </Modal.Body>
                 <Modal.Footer>

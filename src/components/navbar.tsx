@@ -110,13 +110,7 @@ const Navbar = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 20 }}
             transition={{ duration: 0.2 }}
-            className={`fixed grid grid-cols-5 top-16 right-5 w-60 bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 py-2 z-50 transition-all"
-                ${
-                  isOpen
-                    ? "opacity-100 scale-100 animate-fadeIn"
-                    : "opacity-0 scale-95 pointer-events-none"
-                }`}
-          >
+            className={`fixed grid grid-cols-5 top-16 right-5 w-60 bg-white dark:bg-gray-800 bg-opacity-95 dark:bg-opacity-95 shadow-xl rounded-lg border border-gray-200 dark:border-gray-700 py-2 z-50 transition-all" ${ isOpen ? "opacity-100 scale-100 animate-fadeIn" : "opacity-0 scale-95 pointer-events-none"}`}>
             <div className="w-full h-full col-span-4">
               {links.map((d, i) => (
                 <Link
