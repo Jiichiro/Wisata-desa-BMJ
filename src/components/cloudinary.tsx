@@ -1,14 +1,19 @@
 "use client";
 
 import { CldImage, CldVideoPlayer } from "next-cloudinary";
-import { ReactNode } from "react";
 
-interface CloudyProps {
+interface CloudyiMageProps {
   src: string;
   className?: string | undefined;
   width?: number | undefined;
   height?: number | undefined;
   alt?: string | undefined;
+}
+interface CloudyVideoProps {
+  src: string;
+  className?: string | undefined;
+  width?: number | undefined;
+  height?: number | undefined;
 }
 
 const CloudinaryImage = ({
@@ -17,7 +22,7 @@ const CloudinaryImage = ({
   width = 1920,
   height = 1080,
   alt = "image",
-}: CloudyProps): ReactNode => {
+}: CloudyiMageProps) => {
   return (
     <CldImage
       src={src}
@@ -36,7 +41,7 @@ const CloudinaryVideo = ({
   className = "",
   width = 1920,
   height = 1080,
-}: CloudyProps): ReactNode => {
+}: CloudyVideoProps) => {
   return (
     <div className={className}>
       <CldVideoPlayer
