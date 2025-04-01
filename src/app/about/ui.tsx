@@ -53,7 +53,7 @@ const AboutPage = () => {
     },
   ];
 
-  const team = [
+  {/*const team = [
     {
       name: "Sarah Johnson",
       role: "Founder & CEO",
@@ -74,7 +74,7 @@ const AboutPage = () => {
       role: "Customer Experience",
       image: "https://placehold.co/300x300/1a75ff/ffffff?text=DK",
     },
-  ];
+  ];*/}
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200">
