@@ -1,0 +1,143 @@
+---
+import { SITE } from '../data/site';
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  canonicalUrl?: string;
+}
+
+const {
+  title,
+  description = SITE.description,
+  ogImage = `${SITE.url}/images/og-default.jpg`,
+  canonicalUrl = Astro.url.href,
+} = Astro.props;
+
+const fullTitle = title === SITE.name ? title : `${title} — ${SITE.name}`;
+---
+
+<!doctype html>
+<html lang="id" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="keywords" content="wisata desa, wisata desa bmj, wisata mojopahit, wisata majapahit, wisata jawa timur, patung gajah mada muri" />
+    <meta name="author" content={SITE.fullName} />
+    <link rel="canonical" href={canonicalUrl} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:locale" content="id_ID" />
+    <meta property="og:site_name" content={SITE.name} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <meta name="geo.region" content="ID-JI" />
+    <meta name="geo.placename" content="Mojokerto, Jawa Timur" />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- View Transitions API — navigasi antar halaman jadi smooth tanpa full reload -->
+    <!-- Ini bawaan browser modern, Astro hanya mengaktifkannya -->
+    <meta name="astro-view-transitions" content="true" />
+
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "TouristAttraction",
+      "name": SITE.fullName,
+      "description": SITE.description,
+      "url": SITE.url,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Jl. Sudirman No.2, Randugenengan",
+        "addressLocality": "Dlanggu",
+        "addressRegion": "Jawa Timur",
+        "postalCode": "61371",
+        "addressCountry": "ID"
+      },
+      "telephone": SITE.phone,
+      "geo": { "@type": "GeoCoordinates", "latitude": -7.561, "longitude": 112.433 },
+      "openingHours": "Mo-Su 07:00-17:00",
+      "priceRange": "Rp15.000 - Rp20.000",
+      "image": ogImage,
+      "sameAs": [
+        "https://www.instagram.com/wisatadesa.dlanggu/",
+        "https://m.facebook.com/wisatadesa.dlanggu/",
+        "https://www.tiktok.com/@wisatadesa.dlanggu"
+      ]
+    })} />
+  </head>
+
+  <body>
+    <!-- WARNING MODAL
+         Muncul SEKALI per sesi browser (bukan per navigasi halaman).
+         sessionStorage direset saat tab ditutup, bukan saat pindah halaman.
+         Edit teks peringatan di bagian <p class="warning-body"> di bawah. -->
+    <div class="warning-backdrop" id="warning-modal" hidden>
+      <div class="warning-box" role="dialog" aria-modal="true" aria-labelledby="warning-title">
+        <i class="ti ti-alert-triangle warning-icon" aria-hidden="true"></i>
+        <h2 class="warning-title" id="warning-title">PERHATIAN PENGUNJUNG</h2>
+        <div class="warning-body">
+          <p style="margin-bottom: 10px;">Selamat datang di Wisata Desa BMJ Mojopahit. Demi keselamatan dan kenyamanan bersama, harap perhatikan hal berikut:</p>
+          <ul>
+            <li>Jagalah kebersihan lingkungan wisata</li>
+            <li>Awasi anak-anak di area kolam renang</li>
+            <li>Dilarang membawa senjata tajam & minuman keras</li>
+            <li>Patuhi petunjuk dan arahan petugas</li>
+            <li>Tiket yang sudah dibeli tidak dapat dikembalikan</li>
+          </ul>
+        </div>
+        <button class="warning-close" id="warning-close">
+          <i class="ti ti-check" aria-hidden="true"></i>
+          Saya Mengerti
+        </button>
+        <p class="warning-footer">Pesan ini hanya muncul sekali setiap kunjungan.</p>
+      </div>
+    </div>
+
+    <slot />
+
+    <!-- is:inline — script dijalankan langsung, tidak di-bundle Astro
+         Penting untuk theme & warning agar tidak ada flash saat halaman load -->
+    <script is:inline>
+      // THEME: baca preferensi tersimpan atau ikuti preferensi OS
+      const saved = localStorage.getItem('bmj-theme');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      document.documentElement.setAttribute('data-theme', saved ?? (prefersDark ? 'dark' : 'light'));
+      
+      // WARNING: tampilkan hanya jika belum ditampilkan di sesi ini
+      // 'astro:page-load' = event Astro setelah setiap navigasi (termasuk view transitions)
+      // Kita cek sessionStorage di dalamnya agar tidak muncul saat pindah halaman
+      function initWarning() {
+        if (!sessionStorage.getItem('bmj-warning-shown')) {
+          const modal = document.getElementById('warning-modal');
+          const closeBtn = document.getElementById('warning-close');
+          if (modal && closeBtn) {
+            modal.removeAttribute('hidden');
+            closeBtn.focus();
+            closeBtn.addEventListener('click', () => {
+              console.log("clicked")
+              modal.setAttribute('hidden', '');
+              sessionStorage.setItem('bmj-warning-shown', '1');
+            }, { once: true }); // { once: true } — listener otomatis dihapus setelah dipakai
+          }
+        }
+      }
+
+      // Jalankan saat pertama load dan setiap kali view-transition selesai
+      document.addEventListener('DOMContentLoaded', initWarning);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,299 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { SITE, PHOTOS, SOCIALS, cdnUrl } from '../data/site';
+
+// Pisahkan foto featured dan sisanya untuk layout asimetris
+const featured = PHOTOS.find(p => p.featured)!;
+const rest = PHOTOS.filter(p => !p.featured);
+
+// Kategori unik untuk tombol filter — di-derive otomatis dari data
+// Jika menambah kategori baru di data/site.ts, filter otomatis muncul
+const categories = ['semua', ...Array.from(new Set(PHOTOS.map(p => p.category)))];
+const catLabels: Record<string, string> = {
+  semua: 'Semua',
+  ikon: 'Ikon Utama',
+  fasilitas: 'Fasilitas',
+  alam: 'Alam & Suasana',
+  budaya: 'Budaya',
+};
+---
+
+<BaseLayout
+  title="Galeri Foto"
+  description={`Galeri foto ${SITE.fullName} — ${PHOTOS.length} foto destinasi wisata di Mojokerto, Jawa Timur.`}
+  ogImage={cdnUrl(featured.id, 1200, 630)}
+>
+  <Navbar />
+
+  <!-- HERO JUDUL -->
+  <div class="g-hero">
+    <h1 class="g-hero-title">
+      <span>GALERI</span>
+      <span class="accent">FOTO</span>
+    </h1>
+    <div class="g-hero-right" aria-hidden="true">
+      <p class="g-count">{String(PHOTOS.length).padStart(2, '0')}</p>
+      <p class="g-hero-sub">foto destinasi<br />Wisata Desa BMJ<br />Mojokerto, Jawa Timur</p>
+    </div>
+  </div>
+
+  <!-- FILTER -->
+  <div class="g-filter" role="group" aria-label="Filter kategori foto">
+    <span class="filter-label" aria-hidden="true">Filter</span>
+    {categories.map((cat) => (
+      <button
+        class:list={['g-chip', { on: cat === 'semua' }]}
+        data-cat={cat}
+        aria-pressed={cat === 'semua' ? 'true' : 'false'}
+      >
+        {catLabels[cat] ?? cat}
+      </button>
+    ))}
+  </div>
+
+  <!-- FOTO FEATURED (besar di kiri, 2 kecil di kanan) -->
+  <div class="g-featured">
+    <button
+      class="g-feat-main"
+      data-cat={featured.category}
+      data-idx="0"
+      aria-label={`Buka foto: ${featured.name}`}
+    >
+      <img
+        src={cdnUrl(featured.id, 1200, 720)}
+        alt={featured.name}
+        loading="eager"
+        fetchpriority="high"
+        width="1200" height="720"
+      />
+      <div class="g-feat-label">
+        <p class="feat-eyebrow">Ikon Utama · Rekor MURI</p>
+        <p class="feat-title">PATUNG GAJAH MADA</p>
+        <p class="feat-desc">23 meter · Patung tertinggi & terbesar di Indonesia</p>
+      </div>
+    </button>
+
+    <div class="g-feat-side">
+      {rest.slice(0, 2).map((photo, i) => (
+        <button
+          class="g-feat-sm"
+          data-cat={photo.category}
+          data-idx={i + 1}
+          aria-label={`Buka foto: ${photo.name}`}
+        >
+          <img
+            src={cdnUrl(photo.id, 800, 450)}
+            alt={photo.name}
+            loading="lazy"
+            width="800" height="450"
+          />
+          <div class="g-feat-sm-label">
+            <p class="feat-sm-cat">{catLabels[photo.category] ?? photo.category}</p>
+            <p class="feat-sm-name">{photo.name}</p>
+          </div>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- STRIP FOTO LAINNYA -->
+  <ul class="g-strip" role="list">
+    {rest.slice(2).map((photo, i) => (
+      <li
+        class="g-strip-item"
+        data-cat={photo.category}
+      >
+        <button
+          data-idx={i + 3}
+          aria-label={`Buka foto: ${photo.name}`}
+        >
+          <img
+            src={cdnUrl(photo.id, 640, 400)}
+            alt={photo.name}
+            loading="lazy"
+            width="640" height="400"
+          />
+          <div class="g-strip-label">
+            <p class="strip-cat">{catLabels[photo.category] ?? photo.category}</p>
+            <p class="strip-name">{photo.name}</p>
+          </div>
+        </button>
+      </li>
+    ))}
+  </ul>
+
+  <!-- SOSMED CTA -->
+  <div class="g-cta">
+    <p class="g-cta-text">
+      Ikuti perjalanan kami di <em>media sosial</em>
+    </p>
+    <div class="g-cta-links">
+      {SOCIALS.map(({ label, icon, url }) => (
+        <a href={url} target="_blank" rel="noopener noreferrer" class="g-cta-btn">
+          <i class={`ti ti-${icon}`} aria-hidden="true"></i>
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <Footer />
+</BaseLayout>
+
+<!--
+  LIGHTBOX — dirender via JS client-side karena butuh interaksi.
+  Data foto di-pass dari Astro ke JS lewat JSON di <script> tag.
+  Pola ini direkomendasikan Astro untuk "islands" kecil yang tidak butuh framework.
+-->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Tampilan foto penuh" hidden>
+  <button class="lb-close" id="lb-close" aria-label="Tutup">
+    <i class="ti ti-x" aria-hidden="true"></i>
+  </button>
+  <img class="lb-img" id="lb-img" src="" alt="" />
+  <p class="lb-caption" id="lb-caption"></p>
+  <div class="lb-nav">
+    <button class="lb-nav-btn" id="lb-prev" aria-label="Foto sebelumnya">
+      <i class="ti ti-arrow-left" aria-hidden="true"></i> Sebelumnya
+    </button>
+    <button class="lb-nav-btn" id="lb-next" aria-label="Foto berikutnya">
+      Berikutnya <i class="ti ti-arrow-right" aria-hidden="true"></i>
+    </button>
+  </div>
+</div>
+
+<style>
+.g-hero { padding: 56px 32px 40px; display: flex; align-items: flex-end; justify-content: space-between; border-bottom: 0.5px solid var(--border); }
+.g-hero-title { font-family: var(--font-display); font-size: 88px; line-height: .88; letter-spacing: 2px; color: var(--text-primary); }
+.g-hero-title span { display: block; }
+.g-hero-title .accent { color: var(--accent); }
+.g-count { font-family: var(--font-display); font-size: 64px; color: var(--text-decor); line-height: 1; }
+.g-hero-sub { font-size: 12px; color: var(--text-hint); line-height: 1.8; margin-top: 4px; text-align: right; }
+
+.g-filter { display: flex; align-items: center; gap: 8px; padding: 20px 32px; border-bottom: 0.5px solid var(--border); flex-wrap: wrap; }
+.filter-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-hint); margin-right: 8px; }
+.g-chip { padding: 7px 16px; border: 0.5px solid var(--border); font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-hint); cursor: pointer; transition: all .2s; background: transparent; font-family: var(--font-body); }
+.g-chip.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+.g-chip:hover:not(.on) { border-color: var(--text-hint); color: var(--text-primary); }
+
+.g-featured { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; margin-bottom: 2px; }
+.g-feat-main { position: relative; overflow: hidden; cursor: pointer; border: none; padding: 0; background: transparent; }
+.g-feat-main img { width: 100%; height: 360px; object-fit: cover; filter: brightness(0.7); transition: filter .3s, transform .5s; display: block; }
+.g-feat-main:hover img { filter: brightness(.9); transform: scale(1.03); }
+.g-feat-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 32px 24px 20px; background: linear-gradient(to top, rgba(0,0,0,.8), transparent); text-align: left; }
+.feat-eyebrow { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 6px; }
+.feat-title { font-family: var(--font-display); font-size: 30px; color: #fff; letter-spacing: 1px; }
+.feat-desc { font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 4px; line-height: 1.6; }
+
+.g-feat-side { display: grid; grid-template-rows: 1fr 1fr; gap: 2px; }
+.g-feat-sm { position: relative; overflow: hidden; cursor: pointer; border: none; padding: 0; background: transparent; }
+.g-feat-sm img { width: 100%; height: 179px; object-fit: cover; filter: brightness(0.75); display: block; transition: filter .3s, transform .5s; }
+.g-feat-sm:hover img { filter: brightness(.95); transform: scale(1.04); }
+.g-feat-sm-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 16px 12px; background: linear-gradient(to top, rgba(0,0,0,.75), transparent); text-align: left; }
+.feat-sm-cat { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+.feat-sm-name { font-size: 12px; font-weight: 500; color: #fff; }
+
+.g-strip { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; list-style: none; }
+.g-strip-item { position: relative; }
+.g-strip-item button { display: block; width: 100%; padding: 0; border: none; background: transparent; cursor: pointer; position: relative; overflow: hidden; }
+.g-strip-item img { width: 100%; height: 200px; object-fit: cover; filter: brightness(0.75); display: block; transition: filter .3s, transform .5s; }
+.g-strip-item:hover img { filter: brightness(.95); transform: scale(1.04); }
+.g-strip-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px 12px 10px; background: linear-gradient(to top, rgba(0,0,0,.8), transparent); text-align: left; }
+.strip-cat { font-size: 9px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 2px; }
+.strip-name { font-size: 11px; font-weight: 500; color: #fff; }
+
+/* Sembunyikan item yang tidak cocok filter — class .hidden ditambah via JS */
+.g-feat-main[data-hidden], .g-feat-sm[data-hidden], .g-strip-item[data-hidden] { display: none; }
+
+.g-cta { display: flex; align-items: center; justify-content: space-between; padding: 36px 32px; border-top: 0.5px solid var(--border); flex-wrap: wrap; gap: 16px; }
+.g-cta-text { font-family: var(--font-serif); font-style: italic; font-size: 24px; font-weight: 300; color: var(--text-hint); }
+.g-cta-text em { color: var(--text-primary); font-style: normal; }
+.g-cta-links { display: flex; gap: 10px; }
+.g-cta-btn { display: flex; align-items: center; gap: 6px; padding: 9px 18px; border: 0.5px solid var(--border); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-hint); transition: all .2s; }
+.g-cta-btn:hover { border-color: var(--accent); color: var(--text-primary); }
+
+/* LIGHTBOX */
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 999; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.lightbox[hidden] { display: none; }
+.lb-img { max-width: 80vw; max-height: 72vh; object-fit: contain; border: 0.5px solid rgba(255,255,255,0.1); }
+.lb-close { position: absolute; top: 24px; right: 28px; font-size: 22px; color: rgba(240,236,228,0.5); cursor: pointer; background: transparent; border: none; transition: color .2s; }
+.lb-close:hover { color: #f0ece4; }
+.lb-caption { margin-top: 16px; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: rgba(240,236,228,0.35); }
+.lb-nav { display: flex; gap: 12px; margin-top: 12px; }
+.lb-nav-btn { padding: 6px 16px; border: 0.5px solid rgba(255,255,255,0.15); font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(240,236,228,0.5); cursor: pointer; background: transparent; font-family: var(--font-body); transition: all .2s; }
+.lb-nav-btn:hover { border-color: var(--accent); color: #f0ece4; }
+</style>
+
+<script define:vars={{ photosData: PHOTOS, cdnBase: 'https://res.cloudinary.com/dlw8ltf9c/image/upload' }}>
+  // define:vars meng-inject variabel Astro ke dalam script client-side
+  // Ini cara resmi Astro — tidak pakai window global
+
+  const makeSrc = (id) =>
+    `${cdnBase}/c_auto,w_1200,h_800,g_auto/f_auto/q_auto/v1/wisata%20desa/Foto/${id}`;
+
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lb-img');
+  const lbCap = document.getElementById('lb-caption');
+  let cur = 0;
+
+  function openLb(idx) {
+    cur = idx;
+    const p = photosData[idx];
+    lbImg.src = makeSrc(p.id);
+    lbImg.alt = p.name;
+    lbCap.textContent = p.caption;
+    lb.removeAttribute('hidden');
+    document.body.style.overflow = 'hidden'; // cegah scroll background
+    document.getElementById('lb-close').focus();
+  }
+
+  function closeLb() {
+    lb.setAttribute('hidden', '');
+    document.body.style.overflow = '';
+  }
+
+  document.getElementById('lb-close').addEventListener('click', closeLb);
+  document.getElementById('lb-prev').addEventListener('click', () => openLb((cur - 1 + photosData.length) % photosData.length));
+  document.getElementById('lb-next').addEventListener('click', () => openLb((cur + 1) % photosData.length));
+
+  // Tutup lightbox dengan klik backdrop atau Escape
+  lb.addEventListener('click', (e) => { if (e.target === lb) closeLb(); });
+  document.addEventListener('keydown', (e) => {
+    if (!lb.hasAttribute('hidden')) {
+      if (e.key === 'Escape') closeLb();
+      if (e.key === 'ArrowRight') openLb((cur + 1) % photosData.length);
+      if (e.key === 'ArrowLeft')  openLb((cur - 1 + photosData.length) % photosData.length);
+    }
+  });
+
+  // Attach klik ke semua tombol foto — pakai event delegation via data-idx
+  document.querySelectorAll('button[data-idx]').forEach((btn) => {
+    btn.addEventListener('click', () => openLb(Number(btn.dataset.idx)));
+  });
+
+  // ---- FILTER ----
+  document.querySelectorAll('.g-chip').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const cat = chip.dataset.cat;
+
+      // Update tombol aktif
+      document.querySelectorAll('.g-chip').forEach((c) => {
+        c.classList.remove('on');
+        c.setAttribute('aria-pressed', 'false');
+      });
+      chip.classList.add('on');
+      chip.setAttribute('aria-pressed', 'true');
+
+      // Toggle visibilitas item berdasarkan data-cat
+      // Featured main photo dan feat-side items pakai data-cat juga
+      document.querySelectorAll('[data-cat]').forEach((el) => {
+        if (cat === 'semua' || el.dataset.cat === cat) {
+          delete el.dataset.hidden;
+        } else {
+          el.dataset.hidden = '';
+        }
+      });
+    });
+  });
+</script>

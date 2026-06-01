@@ -1,0 +1,60 @@
+---
+import { SITE, SOCIALS, NAV } from '../data/site';
+---
+
+<footer class="px-8 pt-12 pb-7 border-t" style="background: var(--bg-page); border-color: var(--border);">
+
+  <div class="grid grid-cols-3 gap-10 pb-8 border-b mb-6" style="border-color: var(--border);">
+
+    <div>
+      <span class="block font-display text-2xl tracking-widest mb-2" style="color: var(--text-primary);">
+        {SITE.name.toUpperCase()}
+      </span>
+      <p class="text-xs leading-relaxed" style="font-family: var(--font-serif); font-style: italic; color: var(--text-hint);">
+        "{SITE.tagline}"
+      </p>
+    </div>
+
+    <nav aria-label="Navigasi footer">
+      <ul class="flex flex-col gap-2.5 list-none">
+        {NAV.map(({ label, href }) => (
+          <li>
+            <a href={href} class="text-xs tracking-widest uppercase transition-colors duration-200"
+               style="color: var(--text-hint);"
+               onmouseover="this.style.color='var(--text-primary)'"
+               onmouseout="this.style.color='var(--text-hint)'">
+              {label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <address class="not-italic flex flex-col gap-1.5 text-xs" style="color: var(--text-hint);">
+      <p>{SITE.phone}</p>
+      <p><a href={`mailto:${SITE.email}`}
+            onmouseover="this.style.color='var(--text-primary)'"
+            onmouseout="this.style.color='var(--text-hint)'">{SITE.email}</a></p>
+      <div class="flex gap-3 mt-2">
+        {SOCIALS.map(({ label, icon, url }) => (
+          <a href={url} target="_blank" rel="noopener noreferrer" aria-label={label}
+             class="text-lg transition-colors duration-200"
+             style="color: var(--text-hint);"
+             onmouseover="this.style.color='var(--color-accent, #c0392b)'"
+             onmouseout="this.style.color='var(--text-hint)'">
+            <i class={`ti ti-${icon}`} aria-hidden="true"></i>
+          </a>
+        ))}
+      </div>
+    </address>
+
+  </div>
+
+  <div class="flex justify-between items-center flex-wrap gap-2">
+    <p class="text-xs" style="color: var(--text-decor);">
+      © {new Date().getFullYear()} {SITE.fullName}. All rights reserved.
+    </p>
+    <p class="text-xs" style="color: var(--text-decor);">{SITE.address}</p>
+  </div>
+
+</footer>

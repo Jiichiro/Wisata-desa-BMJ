@@ -1,0 +1,209 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css');
+@import "tailwindcss";
+
+/* ============================================================
+   TAILWIND V4 — konfigurasi theme langsung di CSS, bukan config file
+   Semua custom token didaftarkan di @theme, lalu bisa dipakai
+   sebagai class Tailwind: bg-accent, text-primary, font-display, dsb.
+   Dokumentasi: https://tailwindcss.com/docs/v4-beta
+   ============================================================ */
+
+
+@theme {
+  /* Font families — pakai sebagai: font-display, font-serif, font-body */
+  --font-display: 'Bebas Neue', sans-serif;
+  --font-serif: 'Crimson Pro', serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  /* Warna accent BMJ — pakai sebagai: bg-accent, text-accent, border-accent */
+  --color-accent: #c0392b;
+  --color-accent-hover: #a93226;
+  --color-accent-dark: #922b21;
+}
+
+/* ============================================================
+   CSS VARIABLES DARK / LIGHT MODE
+   Tidak bisa masuk @theme karena nilainya berubah per tema.
+   Tetap pakai var() langsung di komponen untuk warna-warna ini.
+   ============================================================ */
+
+:root {
+  --bg-page: #0a0a0a;
+  --bg-surface: #111111;
+  --bg-hover: #161616;
+  --bg-ticket: #0e0e0e;
+  --bg-gap: #1a1a1a;
+
+  --text-primary: #f0ece4;
+  --text-muted: rgba(240, 236, 228, 0.6);
+  --text-hint: rgba(240, 236, 228, 0.38);
+  --text-decor: rgba(240, 236, 228, 0.12);
+
+  --border: rgba(255, 255, 255, 0.07);
+}
+
+[data-theme='light'] {
+  --bg-page: #faf8f4;
+  --bg-surface: #ffffff;
+  --bg-hover: #f0ece6;
+  --bg-ticket: #f7f4ef;
+  --bg-gap: #e8e3da;
+
+  --text-primary: #1a1410;
+  --text-muted: #5a5248;
+  --text-hint: #9a9088;
+  --text-decor: #c8c0b8;
+
+  --border: #ddd8d0;
+}
+
+/* ============================================================
+   BASE RESET
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   WARNING MODAL — styling global karena dipakai di BaseLayout
+   ============================================================ */
+
+.warning-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.82);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.warning-backdrop[hidden] {
+  display: none;
+}
+
+.warning-box {
+  background: var(--bg-surface);
+  border: 0.5px solid var(--border);
+  border-top: 3px solid #c0392b;
+  max-width: 480px;
+  width: 100%;
+  padding: 36px 32px 28px;
+}
+
+.warning-icon {
+  font-size: 28px;
+  color: #c0392b;
+  margin-bottom: 16px;
+}
+
+.warning-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  letter-spacing: 2px;
+  color: var(--text-primary);
+  margin-bottom: 14px;
+}
+
+.warning-body {
+  font-size: 13px;
+  line-height: 1.9;
+  color: var(--text-muted);
+  margin-bottom: 24px;
+}
+
+.warning-body li {
+  margin-left: 16px;
+  margin-bottom: 4px;
+}
+
+.warning-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #c0392b;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 12px 24px;
+  transition: background 0.2s;
+  cursor: pointer;
+  border: none;
+  font-family: var(--font-body);
+}
+
+.warning-close:hover {
+  background: #a93226;
+}
+
+.warning-footer {
+  margin-top: 14px;
+  font-size: 11px;
+  color: var(--text-hint);
+}
+
+[data-theme='dark'] #icon-sun {
+  display: inline;
+}
+
+[data-theme='dark'] #icon-moon {
+  display: none;
+}
+
+[data-theme='light'] #icon-sun {
+  display: none;
+}
+
+[data-theme='light'] #icon-moon {
+  display: inline;
+}
