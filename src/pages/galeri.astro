@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE, PHOTOS, SOCIALS, cdnUrl } from '../data/site';
+
+const featured   = PHOTOS.find(p => p.featured)!;
+const rest       = PHOTOS.filter(p => !p.featured);
+const categories = ['semua', ...Array.from(new Set(PHOTOS.map(p => p.category)))];
+const catLabels: Record<string, string> = {
+  semua: 'Semua', ikon: 'Ikon Utama',
+  fasilitas: 'Fasilitas', alam: 'Alam & Suasana', budaya: 'Budaya',
+};
+
+const photoLabel = 'absolute bottom-0 left-0 right-0 photo-gradient text-left' as const;
+const catBadge   = 'text-[10px] tracking-[3px] uppercase text-accent mb-1' as const;
+---
+
+<BaseLayout
+  title="Galeri Foto"
+  description={`Galeri foto ${SITE.fullName} — ${PHOTOS.length} foto destinasi wisata di Mojokerto, Jawa Timur.`}
+  ogImage={cdnUrl(featured.id, 1200, 630)}
+>
+
+  <!-- HERO JUDUL -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-end justify-between px-4 sm:px-8 pt-10 sm:pt-14 pb-8 sm:pb-10 border-b gap-4"
+       style="border-color: var(--border);">
+
+    <h1 class="font-display leading-[.88] tracking-[2px]"
+        style="font-size: clamp(3.5rem, 12vw, 5.5rem); color: var(--text-primary);"
+        aria-label="Galeri Foto Wisata Desa BMJ">
+      <span class="block">GALERI</span>
+      <span class="block text-accent">FOTO</span>
+    </h1>
+
+    <div class="text-left sm:text-right">
+      <p class="font-display text-4xl sm:text-[64px] leading-none" style="color: var(--text-decor);" aria-hidden="true">
+        {String(PHOTOS.length).padStart(2, '0')}
+      </p>
+      <p class="text-sm leading-relaxed mt-1" style="color: var(--text-hint);">
+        foto destinasi<br />Wisata Desa BMJ<br />Mojokerto, Jawa Timur
+      </p>
+    </div>
+  </div>
+
+  <!-- FILTER KATEGORI -->
+  <div class="flex items-center gap-2 flex-wrap px-4 sm:px-8 py-4 sm:py-5 border-b"
+       style="border-color: var(--border);"
+       role="group"
+       aria-label="Filter kategori foto">
+
+    <span class="text-xs tracking-[3px] uppercase mr-2 w-full sm:w-auto mb-1 sm:mb-0"
+          style="color: var(--text-hint);"
+          id="filter-label">
+      Tampilkan:
+    </span>
+
+    {categories.map((cat) => (
+      <button
+        class:list={[
+          'filter px-4 py-2 border text-sm tracking-wide uppercase transition-all duration-200 cursor-pointer font-body min-h-[44px] rounded-sm',
+          cat === 'semua'
+            ? 'bg-accent border-accent text-white'
+            : 'bg-transparent border-(--border) hover:border-(--text-hint)'
+        ]}
+        style={cat !== 'semua' ? 'color: var(--text-hint);' : ''}
+        data-cat={cat}
+        aria-pressed={cat === 'semua' ? 'true' : 'false'}
+        aria-label={`Tampilkan foto ${catLabels[cat] ?? cat}`}
+      >
+        {catLabels[cat] ?? cat}
+      </button>
+    ))}
+  </div>
+
+  <!-- Jumlah foto yang ditampilkan — live region untuk screen reader -->
+  <div class="px-4 sm:px-8 py-3 border-b" style="border-color: var(--border);">
+    <p id="photo-count"
+       class="text-sm"
+       style="color: var(--text-hint);"
+       aria-live="polite"
+       aria-atomic="true">
+      Menampilkan {PHOTOS.length} foto
+    </p>
+  </div>
+
+  <!-- FEATURED: foto besar kiri + 2 kecil kanan -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-1 mb-1">
+
+    <button class="photo-btn relative overflow-hidden border-none p-0 bg-transparent cursor-pointer"
+            data-cat={featured.category}
+            data-idx="0"
+            aria-label={`Buka foto besar: ${featured.name} — ${featured.caption}`}>
+      <img src={cdnUrl(featured.id, 1200, 720)}
+           alt={`${featured.name} — destinasi unggulan Wisata Desa BMJ`}
+           class="w-full object-cover block"
+           style="height: clamp(200px, 35vw, 360px);"
+           loading="eager"
+           fetchpriority="high"
+           width="1200" height="720" />
+      <div class={`${photoLabel} px-5 pt-8 pb-5`}>
+        <p class={catBadge}>{featured.caption}</p>
+        <p class="font-display text-xl sm:text-[30px] text-white tracking-wide">{featured.name}</p>
+      </div>
+    </button>
+
+    <div class="grid grid-rows-2 gap-1">
+      {rest.slice(0, 2).map((photo, i) => (
+        <button class="photo-btn relative overflow-hidden border-none p-0 bg-transparent cursor-pointer"
+                data-cat={photo.category}
+                data-idx={i + 1}
+                aria-label={`Buka foto: ${photo.name} — ${photo.caption}`}>
+          <img src={cdnUrl(photo.id, 800, 450)}
+               alt={`${photo.name} di Wisata Desa BMJ`}
+               class="w-full object-cover block"
+               style="height: clamp(100px, 17vw, 178px);"
+               loading="lazy"
+               width="800" height="450" />
+          <div class={`${photoLabel} px-4 pt-5 pb-3`}>
+            <p class={catBadge}>{catLabels[photo.category] ?? photo.category}</p>
+            <p class="text-sm font-medium text-white">{photo.name}</p>
+          </div>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <!-- STRIP foto lainnya — responsif grid -->
+  <ul class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-1 list-none grid-photos-4"
+      aria-label="Galeri foto Wisata Desa BMJ">
+    {rest.slice(2).map((photo, i) => (
+      <li class="relative" data-cat={photo.category}>
+        <button class="photo-btn block w-full p-0 border-none bg-transparent cursor-pointer relative overflow-hidden"
+                data-idx={i + 3}
+                aria-label={`Buka foto: ${photo.name} — ${photo.caption}`}>
+          <img src={cdnUrl(photo.id, 640, 400)}
+               alt={`${photo.name} di Wisata Desa BMJ, Mojokerto`}
+               class="w-full object-cover block"
+               style="height: clamp(120px, 20vw, 200px);"
+               loading="lazy"
+               width="640" height="400" />
+          <div class={`${photoLabel} px-3 pt-5 pb-3`}>
+            <p class={catBadge}>{catLabels[photo.category] ?? photo.category}</p>
+            <p class="text-xs sm:text-sm font-medium text-white">{photo.name}</p>
+          </div>
+        </button>
+      </li>
+    ))}
+  </ul>
+
+  <!-- SOSMED CTA -->
+  <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between flex-wrap gap-5 px-4 sm:px-8 py-8 sm:py-9 border-t"
+       style="border-color: var(--border);"
+       aria-label="Ikuti kami di media sosial">
+
+    <p class="font-serif italic text-xl sm:text-2xl font-light" style="color: var(--text-hint);">
+      Ikuti perjalanan kami di <em class="not-italic" style="color: var(--text-primary);">media sosial</em>
+    </p>
+
+    <div class="flex flex-wrap gap-3">
+      {SOCIALS.map(({ label, icon, url }) => (
+        <a href={url}
+           target="_blank"
+           rel="noopener noreferrer"
+           aria-label={`Kunjungi ${label} kami (membuka tab baru)`}
+           class="flex items-center gap-2 px-4 py-3 border text-sm tracking-[2px] uppercase transition-all duration-200 hover:border-accent hover:text-accent min-h-[48px] rounded-sm"
+           style="border-color: var(--border); color: var(--text-hint);">
+          <i class={`ti ti-${icon}`} aria-hidden="true"></i>
+          {label}
+        </a>
+      ))}
+    </div>
+  </div>
+
+</BaseLayout>
+
+<!-- LIGHTBOX — harus di luar BaseLayout agar z-index tidak terpotong -->
+<div id="lightbox"
+     class="fixed inset-0 z-999 hidden flex-col items-center justify-center p-4"
+     style="background: rgba(0,0,0,0.95);"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="lb-title"
+     aria-describedby="lb-caption"
+     hidden>
+
+  <!-- Tombol tutup — besar agar mudah diklik -->
+  <button id="lb-close"
+          class="absolute top-4 right-4 sm:top-6 sm:right-7 flex items-center justify-center w-12 h-12 rounded-full cursor-pointer transition-colors duration-200 text-white/60 hover:text-white bg-black/40 hover:bg-black/70 border border-white/10"
+          aria-label="Tutup tampilan foto">
+    <i class="ti ti-x text-xl" aria-hidden="true"></i>
+  </button>
+
+  <!-- Judul foto untuk screen reader -->
+  <h2 id="lb-title" class="sr-only">Tampilan foto penuh</h2>
+
+  <img id="lb-img"
+       src=""
+       alt=""
+       class="max-w-[92vw] sm:max-w-[80vw] max-h-[65vh] sm:max-h-[72vh] object-contain border border-white/10 rounded-sm" />
+
+  <p id="lb-caption"
+     class="mt-4 text-sm tracking-[2px] uppercase text-white/50 text-center px-4"
+     aria-live="polite"></p>
+
+  <!-- Navigasi foto: tombol lebih besar untuk touch -->
+  <div class="flex gap-3 mt-4" role="group" aria-label="Navigasi foto">
+    {[
+      { id: 'lb-prev', label: 'Foto sebelumnya', icon: 'arrow-left',  text: 'Sebelumnya' },
+      { id: 'lb-next', label: 'Foto berikutnya', icon: 'arrow-right', text: 'Berikutnya' },
+    ].map(({ id, label, icon, text }) => (
+      <button {id}
+              aria-label={label}
+              class="flex items-center gap-2 px-5 py-3 border border-white/15 text-sm tracking-[2px] uppercase text-white/60 hover:border-accent hover:text-white cursor-pointer bg-black/30 font-body transition-all duration-200 min-h-[48px] rounded-sm">
+        {icon === 'arrow-left' && <i class={`ti ti-${icon}`} aria-hidden="true"></i>}
+        {text}
+        {icon === 'arrow-right' && <i class={`ti ti-${icon}`} aria-hidden="true"></i>}
+      </button>
+    ))}
+  </div>
+
+  <!-- Hint keyboard -->
+  <p class="mt-3 text-xs text-white/20 hidden sm:block" aria-hidden="true">
+    Tekan ← → untuk navigasi, Escape untuk menutup
+  </p>
+</div>
+
+<script>
+  import { PHOTOS, cdnUrl } from '../data/site';
+
+  const qs  = <T extends Element>(sel: string) => document.querySelector<T>(sel)!;
+  const qsa = <T extends Element>(sel: string) => document.querySelectorAll<T>(sel);
+
+  const lb    = qs<HTMLElement>('#lightbox');
+  const lbImg = qs<HTMLImageElement>('#lb-img');
+  const lbCap = qs<HTMLElement>('#lb-caption');
+  let cur = 0;
+  let lastFocused: HTMLElement | null = null;
+
+  function openLb(idx: number) {
+    cur = idx;
+    const p   = PHOTOS[idx];
+    lbImg.src = cdnUrl(p.id);
+    lbImg.alt = `${p.name} — ${p.caption}`;
+    lbCap.textContent = `${p.name} (${idx + 1} dari ${PHOTOS.length})`;
+    lb.removeAttribute('hidden');
+    lb.classList.replace('hidden', 'flex');
+    document.body.style.overflow = 'hidden';
+    // Simpan elemen yang sedang fokus untuk dikembalikan nanti
+    lastFocused = document.activeElement as HTMLElement;
+    qs<HTMLElement>('#lb-close').focus();
+  }
+
+  function closeLb() {
+    lb.classList.replace('flex', 'hidden');
+    lb.hidden = true;
+    document.body.style.overflow = '';
+    // Kembalikan fokus ke tombol yang membuka lightbox
+    if (lastFocused) lastFocused.focus();
+  }
+
+  qs('#lb-close').addEventListener('click', closeLb);
+  qs('#lb-prev').addEventListener('click', () =>
+    openLb((cur - 1 + PHOTOS.length) % PHOTOS.length)
+  );
+  qs('#lb-next').addEventListener('click', () =>
+    openLb((cur + 1) % PHOTOS.length)
+  );
+
+  // Tutup saat klik di luar gambar
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) closeLb();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (lb.classList.contains('hidden')) return;
+    if (e.key === 'Escape')     closeLb();
+    if (e.key === 'ArrowRight') openLb((cur + 1) % PHOTOS.length);
+    if (e.key === 'ArrowLeft')  openLb((cur - 1 + PHOTOS.length) % PHOTOS.length);
+    // Trap focus di dalam lightbox
+    if (e.key === 'Tab') {
+      const focusable = lb.querySelectorAll<HTMLElement>('button, [href], [tabindex="0"]');
+      const first = focusable[0];
+      const last  = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  // Event delegation untuk tombol foto
+  document.addEventListener('click', (e) => {
+    const btn = (e.target as Element).closest<HTMLElement>('button[data-idx]');
+    if (btn?.dataset.idx !== undefined) openLb(Number(btn.dataset.idx));
+  });
+
+  // Filter chips
+  const photoCountEl = document.getElementById('photo-count');
+
+  qsa<HTMLElement>('button[data-cat].filter').forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const cat = chip.dataset.cat ?? 'semua';
+
+      // Update tombol filter
+      qsa<HTMLElement>('button[data-cat].filter').forEach((c) => {
+        const isOn = c === chip;
+        c.classList.toggle('bg-accent',      isOn);
+        c.classList.toggle('border-accent',  isOn);
+        c.classList.toggle('text-white',     isOn);
+        c.classList.toggle('bg-transparent', !isOn);
+        c.setAttribute('aria-pressed', String(isOn));
+      });
+
+      // Tampilkan/sembunyikan foto
+      let visibleCount = 0;
+      qsa<HTMLElement>('.photo-btn[data-cat], li[data-cat]').forEach((el) => {
+        const hide = cat !== 'semua' && el.dataset.cat !== cat;
+        if (hide) {
+          el.dataset.hidden = '';
+        } else {
+          delete el.dataset.hidden;
+          visibleCount++;
+        }
+      });
+
+      // Update counter untuk screen reader
+      if (photoCountEl) {
+        const catName = cat === 'semua' ? 'semua kategori' : (document.querySelector<HTMLElement>(`button[data-cat="${cat}"]`)?.textContent?.trim() ?? cat);
+        photoCountEl.textContent = `Menampilkan ${visibleCount} foto${cat !== 'semua' ? ` — ${catName}` : ''}`;
+      }
+    });
+  });
+</script>

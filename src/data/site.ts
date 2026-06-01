@@ -32,66 +32,94 @@ export function cdnUrl(id: string, w = 1200, h = 800) {
 // Tambah objek baru di sini untuk menambah foto ke galeri
 export const PHOTOS = [
   {
-    id: 'zuegazevm0qishbwkvyd',
-    name: 'Patung Gajah Mada',
-    category: 'ikon',
-    caption: 'Patung Gajah Mada · Rekor MURI',
-    featured: true, // foto featured muncul besar di hero galeri & homepage
-  },
-  {
-    id: 'l2vc0aftuhtbvdhudqb4',
-    name: 'Kolam Renang',
-    category: 'fasilitas',
-    caption: 'Kolam Renang · Fasilitas Utama',
-    featured: false,
-  },
-  {
-    id: 'wlhpt9zjp61v78sz3ihn',
-    name: 'Kebun Cokelat',
-    category: 'fasilitas',
-    caption: 'Kebun Cokelat · Edukasi',
-    featured: false,
-  },
-  {
-    id: 'vxhfunxncvitm2mf93cb',
-    name: 'Area Budaya Majapahit',
+    id: 'znsizhrtshhjsdcn3azr',
+    name: 'Logo BMJ',
     category: 'budaya',
-    caption: 'Area Budaya Majapahit',
+    caption: 'Logo BMJ',
     featured: false,
   },
   {
-    id: 'hzxhtstlm1i6g2nzp4pv',
-    name: 'Panorama BMJ',
-    category: 'alam',
-    caption: 'Panorama BMJ · Alam & Suasana',
+    id: 'kltpi9bjnbyz2tkrnlso',
+    name: 'Sumber Air Tirta Wening Kahuripan',
+    category: 'budaya',
+    caption: 'Sumber Air Tirta Wening Kahuripan · Adat',
+    featured: true,
+  },
+  {
+    id: 'agcd28maz8rlkpsvfp3q',
+    name: 'Sertifikasi Cokelat',
+    category: 'fasilitas',
+    caption: 'Sertifikasi Cokelat',
+    featured: false,
+  },
+  {
+    id: 'aouogqepee9lhmkqskeo',
+    name: 'Pintu Masuk Pabrik Cokelat',
+    category: 'fasilitas',
+    caption: 'Pintu Masuk Pabrik Cokelat',
+    featured: false,
+  },
+  {
+    id: 'hrldhbmd1khqfj238gil',
+    name: 'Panggung',
+    category: 'fasilitas',
+    caption: 'Panggung · Hiburan',
+    featured: false,
+  },
+  {
+    id: 'c1ivrbuxqy0axjyoltuy',
+    name: 'Denah',
+    category: 'budaya',
+    caption: 'Denah BMJ',
     featured: false,
   },
   {
     id: 'icxoph3gkswjks8jnntq',
-    name: 'Wahana Permainan',
+    name: 'Kolam Renang Dewasa',
     category: 'fasilitas',
-    caption: 'Wahana Permainan',
+    caption: 'Kolam Renang Dewasa',
     featured: false,
   },
   {
-    id: 'kzahlyhb4acycsmrwk0a',
-    name: 'Taman Bermain',
+    id: 'c5ulbult7aziaauah4p5',
+    name: 'Kolam Renang Anak-anak',
     category: 'fasilitas',
-    caption: 'Taman Bermain',
+    caption: 'Kolam Renang Anak-anak',
     featured: false,
   },
   {
-    id: 'bvkm1a6eeabch4a14ujs',
-    name: 'Keindahan Alam Sekitar BMJ',
-    category: 'alam',
-    caption: 'Keindahan Alam Sekitar BMJ',
+    id: 'ghtfbz38ny8vhf9fmo4a',
+    name: 'Kolam Renang Anak-anak 2',
+    category: 'fasilitas',
+    caption: 'Kolam Renang Anak-anak',
     featured: false,
   },
   {
-    id: 'fzqopymhl6fkx0hnzjna',
-    name: 'Suasana Sore Hari',
+    id: 'vxhfunxncvitm2mf93cb',
+    name: 'Area Oleh-oleh',
+    category: 'budaya',
+    caption: 'Area Oleh-oleh',
+    featured: false,
+  },
+  {
+    id: 'l2vc0aftuhtbvdhudqb4',
+    name: 'Bagian Depan Wisata Desa',
+    category: 'fasilitas',
+    caption: 'Bagian Depan Wisata Desa',
+    featured: false,
+  },
+  {
+    id: 'gauaetthykpjqs6jo4uz',
+    name: 'Tempat Duduk Area Oleh-oleh',
+    category: 'fasilitas',
+    caption: 'Tempat Duduk Area Oleh-oleh',
+    featured: false,
+  },
+  {
+    id: 'b3zlsrbogkklbbk7ykgt',
+    name: 'Foto Pajangan',
     category: 'alam',
-    caption: 'Suasana Sore Hari',
+    caption: 'Foto Pajangan',
     featured: false,
   },
 ] as const;
@@ -103,19 +131,19 @@ export const TICKETS = [
   {
     type: 'Pengunjung Umum',
     name: 'Tiket Dewasa',
-    price: 20000,
+    price: 16000,
     note: 'Per orang',
   },
   {
     type: 'Pengunjung Muda',
     name: 'Tiket Anak-anak',
-    price: 18000,
+    price: 14000,
     note: 'Per orang',
   },
   {
     type: 'Member & Langganan',
     name: 'Tiket Pelanggan',
-    price: 15000,
+    price: 12000,
     note: 'Sudah pernah berkunjung',
   },
 ];
@@ -152,14 +180,15 @@ export const TIMELINE = [
 
 // ---- SOSIAL MEDIA ----
 export const SOCIALS = [
-  { label: 'Instagram', icon: 'brand-instagram', url: 'https://www.instagram.com/wisatadesa.dlanggu/' },
-  { label: 'Facebook', icon: 'brand-facebook', url: 'https://m.facebook.com/wisatadesa.dlanggu/' },
-  { label: 'TikTok', icon: 'brand-tiktok', url: 'https://www.tiktok.com/@wisatadesa.dlanggu' },
+  { label: 'Instagram', icon: 'brand-instagram', url: 'https://www.instagram.com/wisatadesa.mojokerto/' },
+  { label: 'Facebook', icon: 'brand-facebook', url: 'https://www.facebook.com/wisatadesa.mojokerto' },
+  { label: 'TikTok', icon: 'brand-tiktok', url: 'https://www.tiktok.com/@wisatadesa.mojokerto' },
 ];
 
 // ---- NAVIGASI ----
 export const NAV = [
   { label: 'Beranda', href: '/' },
-  { label: 'Tentang Kami', href: '/about' },
+  { label: 'Tentang Kami', href: '/tentang' },
+  { label: 'Tiket', href: '/tiket' },
   { label: 'Galeri', href: '/galeri' },
 ];

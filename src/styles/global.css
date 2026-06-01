@@ -1,209 +1,240 @@
+/* @import harus paling atas sebelum @import "tailwindcss" */
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Crimson+Pro:ital,wght@0,300;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
 @import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css');
+
 @import "tailwindcss";
 
 /* ============================================================
-   TAILWIND V4 — konfigurasi theme langsung di CSS, bukan config file
-   Semua custom token didaftarkan di @theme, lalu bisa dipakai
-   sebagai class Tailwind: bg-accent, text-primary, font-display, dsb.
-   Dokumentasi: https://tailwindcss.com/docs/v4-beta
+   TAILWIND V4 @theme
    ============================================================ */
-
-
 @theme {
-  /* Font families — pakai sebagai: font-display, font-serif, font-body */
   --font-display: 'Bebas Neue', sans-serif;
-  --font-serif: 'Crimson Pro', serif;
-  --font-body: 'DM Sans', sans-serif;
+  --font-serif:   'Crimson Pro', serif;
+  --font-body:    'DM Sans', sans-serif;
 
-  /* Warna accent BMJ — pakai sebagai: bg-accent, text-accent, border-accent */
-  --color-accent: #c0392b;
+  --color-accent:       #c0392b;
   --color-accent-hover: #a93226;
-  --color-accent-dark: #922b21;
+  --color-accent-dark:  #922b21;
 }
 
 /* ============================================================
-   CSS VARIABLES DARK / LIGHT MODE
-   Tidak bisa masuk @theme karena nilainya berubah per tema.
-   Tetap pakai var() langsung di komponen untuk warna-warna ini.
+   CSS VARIABLES DARK / LIGHT
    ============================================================ */
-
 :root {
-  --bg-page: #0a0a0a;
+  --bg-page:    #0a0a0a;
   --bg-surface: #111111;
-  --bg-hover: #161616;
-  --bg-ticket: #0e0e0e;
-  --bg-gap: #1a1a1a;
+  --bg-hover:   #161616;
+  --bg-ticket:  #0e0e0e;
+  --bg-gap:     #1a1a1a;
 
   --text-primary: #f0ece4;
-  --text-muted: rgba(240, 236, 228, 0.6);
-  --text-hint: rgba(240, 236, 228, 0.38);
-  --text-decor: rgba(240, 236, 228, 0.12);
+  --text-muted:   rgba(240,236,228,0.6);
+  --text-hint:    rgba(240,236,228,0.38);
+  --text-decor:   rgba(240,236,228,0.12);
 
-  --border: rgba(255, 255, 255, 0.07);
+  --border: rgba(255,255,255,0.07);
+
+  /* Ukuran font aksesibel — minimum 16px untuk keterbacaan lansia */
+  --font-size-base: 17px;
+  --font-size-sm:   15px;
+  --font-size-xs:   14px;
+  --line-height-body: 1.75;
+
+  /* Spacing layar touch — minimum 44px touch target */
+  --touch-target: 48px;
 }
 
 [data-theme='light'] {
-  --bg-page: #faf8f4;
+  --bg-page:    #faf8f4;
   --bg-surface: #ffffff;
-  --bg-hover: #f0ece6;
-  --bg-ticket: #f7f4ef;
-  --bg-gap: #e8e3da;
+  --bg-hover:   #f0ece6;
+  --bg-ticket:  #f7f4ef;
+  --bg-gap:     #e8e3da;
 
   --text-primary: #1a1410;
-  --text-muted: #5a5248;
-  --text-hint: #9a9088;
-  --text-decor: #c8c0b8;
+  --text-muted:   #5a5248;
+  --text-hint:    #7a7068;
+  --text-decor:   #c8c0b8;
 
   --border: #ddd8d0;
 }
 
 /* ============================================================
-   BASE RESET
+   HIGH CONTRAST MODE — aksesibilitas penyandang low-vision
    ============================================================ */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  background: var(--bg-page);
-  color: var(--text-primary);
-  font-family: var(--font-body);
-  font-size: 14px;
-  line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-}
-
-img {
-  display: block;
-  max-width: 100%;
-  height: auto;
-}
-
-button {
-  font-family: var(--font-body);
-  cursor: pointer;
-  border: none;
-  background: transparent;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
-
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
+@media (prefers-contrast: high) {
+  :root {
+    --text-hint: rgba(240,236,228,0.75);
+    --text-muted: rgba(240,236,228,0.9);
+    --border: rgba(255,255,255,0.25);
+  }
+  [data-theme='light'] {
+    --text-hint: #4a4038;
+    --text-muted: #2a2018;
+    --border: #8a8078;
+  }
 }
 
 /* ============================================================
-   WARNING MODAL — styling global karena dipakai di BaseLayout
+   BASE RESET
    ============================================================ */
-
-.warning-backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.82);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
+html  {
+  scroll-behavior: smooth;
+  /* Meningkatkan ukuran teks dasar untuk keterbacaan lansia */
+  font-size: var(--font-size-base);
 }
 
-.warning-backdrop[hidden] {
+/* Kurangi motion untuk pengguna yang sensitif */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+body  {
+  background: var(--bg-page);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  -webkit-font-smoothing: antialiased;
+}
+a     { color: inherit; text-decoration: none; }
+button { font-family: var(--font-body); }
+
+/* ============================================================
+   SKIP LINK — sangat penting untuk screen reader & keyboard nav
+   ============================================================ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 1rem;
+  z-index: 10000;
+  background: var(--color-accent);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 0 0 4px 4px;
+  transition: top 0.2s;
+}
+.skip-link:focus {
+  top: 0;
+  outline: 3px solid white;
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   FOCUS VISIBLE — aksesibilitas keyboard & screen reader
+   Lebih jelas dari default browser, penting untuk orang tunanetra
+   ============================================================ */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   THEME TOGGLE ICONS
+   ============================================================ */
+[data-theme='dark']  #icon-sun  { display: inline; }
+[data-theme='dark']  #icon-moon { display: none;   }
+[data-theme='light'] #icon-sun  { display: none;   }
+[data-theme='light'] #icon-moon { display: inline; }
+
+/* ============================================================
+   PHOTO HOVER
+   ============================================================ */
+.photo-btn img {
+  filter: brightness(0.72);
+  transition: filter 0.3s, transform 0.5s;
+}
+.photo-btn:hover img {
+  filter: brightness(0.95);
+  transform: scale(1.04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-btn img { transition: none; }
+  .photo-btn:hover img { transform: none; }
+}
+
+.photo-gradient {
+  background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, transparent 100%);
+}
+
+/* Filter gallery */
+[data-hidden] { display: none !important; }
+
+/* ============================================================
+   MOBILE HAMBURGER MENU
+   ============================================================ */
+#mobile-menu {
   display: none;
 }
-
-.warning-box {
-  background: var(--bg-surface);
-  border: 0.5px solid var(--border);
-  border-top: 3px solid #c0392b;
-  max-width: 480px;
-  width: 100%;
-  padding: 36px 32px 28px;
+#mobile-menu.open {
+  display: flex;
 }
 
-.warning-icon {
-  font-size: 28px;
-  color: #c0392b;
-  margin-bottom: 16px;
+/* ============================================================
+   TIPOGRAFI RESPONSIVE — lebih besar untuk lansia
+   ============================================================ */
+/* Hero headline: besar di desktop, lebih kecil di mobile */
+.hero-headline {
+  font-size: clamp(3rem, 12vw, 6.75rem);
+  line-height: 0.9;
+}
+/* CTA headline */
+.cta-headline {
+  font-size: clamp(2.25rem, 8vw, 4.25rem);
+  line-height: 0.92;
+}
+/* Section headline */
+.section-headline {
+  font-size: clamp(1.75rem, 5vw, 2.375rem);
 }
 
-.warning-title {
-  font-family: var(--font-display);
-  font-size: 28px;
-  letter-spacing: 2px;
-  color: var(--text-primary);
-  margin-bottom: 14px;
-}
-
-.warning-body {
-  font-size: 13px;
-  line-height: 1.9;
-  color: var(--text-muted);
-  margin-bottom: 24px;
-}
-
-.warning-body li {
-  margin-left: 16px;
-  margin-bottom: 4px;
-}
-
-.warning-close {
+/* ============================================================
+   TOMBOL — touch target minimum 48px, teks lebih besar
+   ============================================================ */
+.btn-primary {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  background: #c0392b;
-  color: #fff;
-  font-size: 11px;
+  min-height: var(--touch-target);
+  padding: 0.75rem 1.75rem;
+  background: var(--color-accent);
+  color: white;
+  font-size: 0.875rem;
   font-weight: 500;
-  letter-spacing: 2px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding: 12px 24px;
-  transition: background 0.2s;
-  cursor: pointer;
-  border: none;
-  font-family: var(--font-body);
+  transition: background-color 0.2s;
+  text-decoration: none;
+}
+.btn-primary:hover { background: var(--color-accent-hover); }
+.btn-primary:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 3px;
 }
 
-.warning-close:hover {
-  background: #a93226;
+/* ============================================================
+   RESPONSIVE GRID HELPERS
+   ============================================================ */
+/* Grid kolom yang kolaps otomatis di mobile */
+@media (max-width: 640px) {
+  .grid-photos-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-photos-2 { grid-template-columns: 1fr !important; }
+  .grid-tickets-3 { grid-template-columns: 1fr !important; }
+  .grid-facilities-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-timeline-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-footer-3 { grid-template-columns: 1fr !important; }
 }
-
-.warning-footer {
-  margin-top: 14px;
-  font-size: 11px;
-  color: var(--text-hint);
-}
-
-[data-theme='dark'] #icon-sun {
-  display: inline;
-}
-
-[data-theme='dark'] #icon-moon {
-  display: none;
-}
-
-[data-theme='light'] #icon-sun {
-  display: none;
-}
-
-[data-theme='light'] #icon-moon {
-  display: inline;
+@media (min-width: 641px) and (max-width: 1024px) {
+  .grid-photos-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-tickets-3 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-facilities-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-timeline-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  .grid-footer-3 { grid-template-columns: repeat(2, 1fr) !important; }
 }

@@ -2,27 +2,38 @@
 import { SITE, SOCIALS, NAV } from '../data/site';
 ---
 
-<footer class="px-8 pt-12 pb-7 border-t" style="background: var(--bg-page); border-color: var(--border);">
+<footer class="px-4 sm:px-8 pt-10 sm:pt-12 pb-7 border-t"
+        style="background: var(--bg-page); border-color: var(--border);"
+        role="contentinfo"
+        aria-label="Footer — informasi kontak dan navigasi">
 
-  <div class="grid grid-cols-3 gap-10 pb-8 border-b mb-6" style="border-color: var(--border);">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 pb-8 mb-6 border-b grid-footer-3"
+       style="border-color: var(--border);">
 
+    <!-- Brand -->
     <div>
-      <span class="block font-display text-2xl tracking-widest mb-2" style="color: var(--text-primary);">
+      <span class="block font-display text-2xl tracking-[3px] mb-3" style="color: var(--text-primary);">
         {SITE.name.toUpperCase()}
       </span>
-      <p class="text-xs leading-relaxed" style="font-family: var(--font-serif); font-style: italic; color: var(--text-hint);">
+      <p class="text-base leading-relaxed italic font-serif mb-3" style="color: var(--text-hint);">
         "{SITE.tagline}"
+      </p>
+      <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+        {SITE.description.slice(0, 120)}...
       </p>
     </div>
 
+    <!-- Navigasi -->
     <nav aria-label="Navigasi footer">
-      <ul class="flex flex-col gap-2.5 list-none">
+      <h3 class="text-xs tracking-[3px] uppercase font-medium mb-4" style="color: var(--text-hint);">
+        Menu
+      </h3>
+      <ul class="flex flex-col gap-3 list-none">
         {NAV.map(({ label, href }) => (
           <li>
-            <a href={href} class="text-xs tracking-widest uppercase transition-colors duration-200"
-               style="color: var(--text-hint);"
-               onmouseover="this.style.color='var(--text-primary)'"
-               onmouseout="this.style.color='var(--text-hint)'">
+            <a href={href}
+               class="text-sm tracking-wide transition-colors duration-200 hover:text-accent inline-block min-h-[44px] flex items-center"
+               style="color: var(--text-muted);">
               {label}
             </a>
           </li>
@@ -30,18 +41,44 @@ import { SITE, SOCIALS, NAV } from '../data/site';
       </ul>
     </nav>
 
-    <address class="not-italic flex flex-col gap-1.5 text-xs" style="color: var(--text-hint);">
-      <p>{SITE.phone}</p>
-      <p><a href={`mailto:${SITE.email}`}
-            onmouseover="this.style.color='var(--text-primary)'"
-            onmouseout="this.style.color='var(--text-hint)'">{SITE.email}</a></p>
-      <div class="flex gap-3 mt-2">
+    <!-- Kontak -->
+    <address class="not-italic">
+      <h3 class="text-xs tracking-[3px] uppercase font-medium mb-4" style="color: var(--text-hint);">
+        Hubungi Kami
+      </h3>
+      <ul class="flex flex-col gap-3 list-none text-sm" style="color: var(--text-muted);">
+        <li>
+          <a href={`tel:${SITE.phone.replace(/\s/g, '')}`}
+             class="flex items-center gap-2 hover:text-accent transition-colors min-h-[44px]"
+             aria-label={`Hubungi via telepon: ${SITE.phone}`}>
+            <i class="ti ti-phone text-base" aria-hidden="true"></i>
+            {SITE.phone}
+          </a>
+        </li>
+        <li>
+          <a href={`mailto:${SITE.email}`}
+             class="flex items-center gap-2 hover:text-accent transition-colors min-h-[44px] break-all"
+             aria-label={`Kirim email ke ${SITE.email}`}>
+            <i class="ti ti-mail text-base" aria-hidden="true"></i>
+            {SITE.email}
+          </a>
+        </li>
+        <li class="flex items-start gap-2 mt-1" style="color: var(--text-hint);">
+          <i class="ti ti-map-pin text-base mt-0.5 shrink-0" aria-hidden="true"></i>
+          <span>{SITE.address}</span>
+        </li>
+      </ul>
+
+      <!-- Sosial media -->
+      <div class="flex gap-3 mt-5" role="list" aria-label="Media sosial Wisata Desa BMJ">
         {SOCIALS.map(({ label, icon, url }) => (
-          <a href={url} target="_blank" rel="noopener noreferrer" aria-label={label}
-             class="text-lg transition-colors duration-200"
-             style="color: var(--text-hint);"
-             onmouseover="this.style.color='var(--color-accent, #c0392b)'"
-             onmouseout="this.style.color='var(--text-hint)'">
+          <a href={url}
+             target="_blank"
+             rel="noopener noreferrer"
+             aria-label={`Kunjungi ${label} kami (membuka tab baru)`}
+             class="flex items-center justify-center w-11 h-11 border text-lg transition-all duration-200 hover:border-accent hover:text-accent rounded-sm"
+             style="border-color: var(--border); color: var(--text-hint);"
+             role="listitem">
             <i class={`ti ti-${icon}`} aria-hidden="true"></i>
           </a>
         ))}
@@ -50,11 +87,12 @@ import { SITE, SOCIALS, NAV } from '../data/site';
 
   </div>
 
-  <div class="flex justify-between items-center flex-wrap gap-2">
-    <p class="text-xs" style="color: var(--text-decor);">
-      © {new Date().getFullYear()} {SITE.fullName}. All rights reserved.
+  <!-- Copyright -->
+  <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 flex-wrap">
+    <p class="text-sm" style="color: var(--text-decor);">
+      © {new Date().getFullYear()} {SITE.fullName}. Hak cipta dilindungi.
     </p>
-    <p class="text-xs" style="color: var(--text-decor);">{SITE.address}</p>
+    <p class="text-sm" style="color: var(--text-decor);">{SITE.address}</p>
   </div>
 
 </footer>

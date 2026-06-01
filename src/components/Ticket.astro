@@ -1,0 +1,74 @@
+---
+import { formatPrice, TICKETS } from "../data/site"
+---
+
+<section class="py-12 sm:py-14 px-4 sm:px-8"
+         style="background: var(--bg-ticket);"
+         aria-labelledby="tickets-title">
+
+  <div class="flex flex-col sm:flex-row justify-between sm:items-baseline gap-3 mb-7">
+    <h2 id="tickets-title"
+        class="font-display tracking-[2px] section-headline"
+        style="color: var(--text-primary);">
+      DAFTAR TIKET MASUK
+    </h2>
+    <p class="text-sm tracking-wide" style="color: var(--text-hint);">
+      <i class="ti ti-gift text-accent" aria-hidden="true"></i>
+      <span>Gratis Cokelat Candy &amp; Bebas Berenang</span>
+    </p>
+  </div>
+
+  <!-- Screen reader: ringkasan tiket sebelum list -->
+  <p class="sr-only">
+    Tersedia {TICKETS.length} jenis tiket. Pilih tiket sesuai kategori pengunjung.
+  </p>
+
+  <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-px list-none grid-tickets-3"
+      style="background: var(--bg-gap);"
+      id="tiket-masuk"
+      aria-label="Daftar harga tiket masuk Wisata Desa BMJ">
+
+    {TICKETS.map(({ type, name, price, note }) => (
+      <li class="px-6 py-7 border-t-4 border-transparent hover:border-accent focus-within:border-accent transition-colors duration-200"
+          style="background: var(--bg-ticket);">
+
+        <!-- Tipe tiket -->
+        <p class="text-xs tracking-[2px] uppercase mb-2"
+           style="color: var(--text-hint);"
+           aria-hidden="true">{type}</p>
+
+        <!-- Nama tiket -->
+        <p class="text-lg font-semibold mb-2 leading-snug"
+           style="color: var(--text-primary);">
+          {name}
+        </p>
+
+        <!-- Harga — besar dan mudah dibaca -->
+        <p class="font-display text-4xl sm:text-5xl tracking-wide text-accent"
+           aria-label={`Harga: ${formatPrice(price)}`}>
+          {formatPrice(price)}
+        </p>
+
+        <!-- Catatan -->
+        <p class="text-sm mt-2 leading-relaxed" style="color: var(--text-hint);">
+          {note}
+        </p>
+      </li>
+    ))}
+  </ul>
+
+  <!-- Keterangan tambahan -->
+  <div class="mt-6 p-4 border rounded-sm" style="border-color: var(--border);">
+    <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+      <i class="ti ti-info-circle text-accent mr-1.5" aria-hidden="true"></i>
+      <strong>Catatan:</strong> Harga tiket dapat berubah sewaktu-waktu.
+      Untuk informasi terkini, hubungi kami di
+      <a href="tel:+6285749574107"
+         class="text-accent hover:underline font-medium"
+         aria-label="Hubungi kami di nomor +62 857-4957-4107">
+        +62 857-4957-4107
+      </a>
+    </p>
+  </div>
+
+</section>

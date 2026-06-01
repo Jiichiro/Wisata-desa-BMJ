@@ -1,77 +1,116 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import { SITE, PHOTOS, TICKETS, formatPrice, cdnUrl } from '../data/site';
+import { SITE, PHOTOS, TICKETS, formatPrice, cdnUrl, NAV } from '../data/site';
+import Ticket from '../components/Ticket.astro';
 
 const featuredPhoto = PHOTOS.find(p => p.featured)!;
-const cardPhotos = PHOTOS.filter(p => !p.featured).slice(0, 3);
-const rankLabels = ['1st place', '2nd place', '3rd place', '4th place'];
+const cardPhotos    = PHOTOS.filter(p => !p.featured).slice(0, 3);
+const rankLabels    = ['Unggulan', 'Pilihan 2', 'Pilihan 3', 'Pilihan 4'];
 ---
 
 <BaseLayout title={SITE.name} description={SITE.description}>
-  <Navbar />
 
-  <!-- HERO -->
-  <section class="hero" aria-label="Hero utama">
-    <img
-      src={cdnUrl('fzqopymhl6fkx0hnzjna', 1920, 900)}
-      alt="Wisata Desa BMJ Mojopahit"
-      class="hero-img"
-      fetchpriority="high"
-      loading="eager"
-    />
-    <div class="hero-overlay" aria-hidden="true"></div>
-    <ol class="hero-nums" aria-hidden="true">
+  <!-- ===== HERO ===== -->
+  <section class="relative overflow-hidden" style="min-height: min(70vh, 600px);" aria-label="Selamat datang di Wisata Desa BMJ">
+
+    <!-- Video background dengan fallback -->
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      class="absolute inset-0 w-full h-full object-cover opacity-50"
+      aria-hidden="true"
+    >
+      <source src="https://res.cloudinary.com/dlw8ltf9c/video/upload/v1762758103/Homepage_video_1_ordr24.mp4" type="video/mp4" />
+    </video>
+
+    <!-- Overlay gradient -->
+    <div class="absolute inset-0"
+         style="background: linear-gradient(to right, rgba(0,0,0,0.65) 40%, rgba(0,0,0,0.2))"
+         aria-hidden="true"></div>
+
+    <!-- Nomor dekoratif — tersembunyi dari screen reader -->
+    <ol class="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5 list-none hidden sm:flex"
+        aria-hidden="true">
       {['03','04','05','06','07'].map((n, i) => (
-        <li class:list={['num', { curr: i === 2 }]}>{n}</li>
+        <li class:list={[
+          'tracking-wide',
+          i === 2 ? 'text-lg font-medium text-white' : 'text-[11px] text-white/25'
+        ]}>{n}</li>
       ))}
     </ol>
-    <div class="hero-content">
-      <h1 class="hero-title">
-        <span>WISATA</span>
-        <span>DESA BMJ</span>
+
+    <!-- Konten hero -->
+    <div class="relative flex flex-col justify-end h-full px-4 sm:px-8 pb-10 sm:pb-12 pt-20 sm:pt-24"
+         style="min-height: min(70vh, 600px);">
+
+      <!-- Judul besar menggunakan clamp untuk responsif -->
+      <h1 class="hero-headline font-display text-white leading-[.88] tracking-[2px]" aria-label="Wisata Desa BMJ">
+        <span class="block">WISATA</span>
+        <span class="block">DESA BMJ</span>
       </h1>
-      <div class="hero-subs">
-        <div class="hero-sub">
-          <strong>Patung Gajah Mada</strong>
-          Patung Mahapatih Gajah Mada setinggi 23 meter, pemegang Rekor MURI sebagai patung Gajah Mada terbesar dan tertinggi di Indonesia.
-        </div>
-        <div class="hero-sub">
-          <strong>Warisan Majapahit</strong>
-          Mengusung elemen-elemen budaya Kerajaan Majapahit. Terletak di Randugenengan, Dlanggu, Mojokerto.
-        </div>
-        <div class="hero-sub">
-          <strong>21 Tahun Melayani</strong>
-          Destinasi unggulan Jawa Timur yang telah menyambut wisatawan lokal maupun mancanegara.
-        </div>
+
+      <!-- Tiga fitur unggulan — teks lebih besar untuk keterbacaan lansia -->
+      <div class="flex flex-col sm:flex-row gap-5 sm:gap-8 mt-6 sm:mt-7 max-w-2xl">
+        {[
+          { label: 'Patung Gajah Mada',  body: 'Patung Mahapatih Gajah Mada setinggi 23 meter, pemegang Rekor MURI sebagai patung Gajah Mada terbesar dan tertinggi di Indonesia.' },
+          { label: 'Warisan Majapahit',   body: 'Mengusung elemen-elemen budaya Kerajaan Majapahit. Terletak di Randugenengan, Dlanggu, Mojokerto.' },
+          { label: '21 Tahun Melayani',  body: 'Destinasi unggulan Jawa Timur yang telah menyambut wisatawan lokal maupun mancanegara.' },
+        ].map(({ label, body }) => (
+          <div class="flex-1 text-sm sm:text-[13px] leading-relaxed text-white/80">
+            <strong class="block text-xs tracking-[2px] uppercase text-accent mb-1.5">{label}</strong>
+            {body}
+          </div>
+        ))}
       </div>
-      <a href="/galeri" class="swipe-cta" aria-label="Lihat galeri foto">
-        <span class="swipe-line" aria-hidden="true"></span>
-        Jelajahi →
+
+      <!-- CTA link -->
+      <a href="/galeri"
+         class="inline-flex items-center gap-2.5 mt-6 text-sm tracking-[2px] uppercase text-white/50 hover:text-white/90 transition-colors duration-200 min-h-[44px]"
+         aria-label="Jelajahi galeri foto Wisata Desa BMJ">
+        <span class="inline-block w-8 h-px bg-accent" aria-hidden="true"></span>
+        Jelajahi Galeri →
       </a>
     </div>
   </section>
 
-  <!-- DESTINASI UNGGULAN -->
-  <section class="rec-section" aria-labelledby="rec-title">
-    <div class="rec-header">
-      <p class="eyebrow">Bingung mau ke mana? Ini rekomendasinya</p>
-      <h2 id="rec-title" class="rec-title">Destinasi Unggulan di BMJ</h2>
+  <!-- ===== DESTINASI UNGGULAN ===== -->
+  <section class="py-12 sm:py-14 px-4 sm:px-8"
+           style="background: var(--bg-surface);"
+           aria-labelledby="rec-title">
+
+    <div class="text-center mb-8 sm:mb-9">
+      <p class="text-xs tracking-[3px] uppercase mb-3" style="color: var(--text-hint);">
+        Bingung mau ke mana? Ini rekomendasinya
+      </p>
+      <h2 id="rec-title" class="font-serif italic text-2xl sm:text-[30px] font-light" style="color: var(--text-primary);">
+        Destinasi Unggulan di BMJ
+      </h2>
     </div>
-    <ul class="cards" role="list">
+
+    <!-- Grid foto: 4 kolom desktop, 2 di tablet, 1 di mobile -->
+    <ul class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 sm:gap-0.5 list-none grid-photos-4"
+        aria-label="Destinasi unggulan Wisata Desa BMJ">
+
       {[featuredPhoto, ...cardPhotos].map((photo, i) => (
-        <li class="card">
-          <a href="/galeri" aria-label={`Lihat foto ${photo.name}`}>
-            <img
-              src={cdnUrl(photo.id, 600, 400)}
-              alt={photo.name}
-              loading={i === 0 ? 'eager' : 'lazy'}
-              width="600" height="400"
-            />
-            <div class="card-label">
-              <p class="card-rank">{rankLabels[i]}</p>
-              <p class="card-name">{photo.name}</p>
+        <li class="relative overflow-hidden group rounded-sm sm:rounded-none">
+          <a href="/galeri"
+             class="block"
+             aria-label={`Lihat galeri foto ${photo.name} — ${rankLabels[i]}`}>
+
+            <img src={cdnUrl(photo.id, 600, 400)}
+                 alt={`${photo.name} — salah satu destinasi unggulan Wisata Desa BMJ`}
+                 class="w-full object-cover brightness-[0.7] group-hover:brightness-[0.92] group-hover:scale-[1.04] transition-all duration-400"
+                 style="height: clamp(180px, 30vw, 220px);"
+                 loading={i === 0 ? 'eager' : 'lazy'}
+                 width="600" height="400" />
+
+            <div class="absolute bottom-0 left-0 right-0 px-4 pt-8 pb-4 photo-gradient">
+              <p class="text-[10px] tracking-[3px] uppercase text-accent mb-1" aria-hidden="true">
+                {rankLabels[i]}
+              </p>
+              <p class="text-sm sm:text-base font-medium text-white">{photo.name}</p>
             </div>
           </a>
         </li>
@@ -79,89 +118,40 @@ const rankLabels = ['1st place', '2nd place', '3rd place', '4th place'];
     </ul>
   </section>
 
-  <!-- CTA -->
-  <section class="cta-section" aria-label="Ajakan liburan">
-    <img src={cdnUrl('hzxhtstlm1i6g2nzp4pv', 1920, 800)} alt="Suasana Wisata Desa BMJ" class="cta-img" loading="lazy" />
-    <div class="cta-overlay" aria-hidden="true"></div>
-    <div class="cta-content">
-      <h2 class="cta-title">NIKMATI LIBURANMU BERSAMA KAMI</h2>
-      <div class="cta-right">
-        <p class="cta-desc">Wisata Desa BMJ Mojopahit hadir untuk keluarga, komunitas, dan wisatawan yang ingin merasakan budaya dan alam Jawa Timur yang autentik.</p>
-        <a href="/about" class="btn-primary">Tentang Kami →</a>
+  <!-- ===== CTA ===== -->
+  <section class="relative overflow-hidden"
+           style="min-height: clamp(280px, 40vw, 400px);"
+           aria-label="Undangan liburan bersama Wisata Desa BMJ">
+
+    <img src={cdnUrl('hzxhtstlm1i6g2nzp4pv', 1920, 800)}
+         alt="Suasana Wisata Desa BMJ — keluarga menikmati liburan di area taman"
+         class="absolute inset-0 w-full h-full object-cover brightness-[0.38]"
+         loading="lazy" />
+
+    <div class="absolute inset-0 bg-black/45" aria-hidden="true"></div>
+
+    <div class="relative flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6 lg:gap-8 px-4 sm:px-8 pb-10 sm:pb-12 pt-20 sm:pt-24 h-full"
+         style="min-height: clamp(280px, 40vw, 400px);">
+
+      <h2 class="cta-headline font-display text-white leading-[.92] max-w-xl">
+        NIKMATI LIBURANMU BERSAMA KAMI
+      </h2>
+
+      <div class="flex flex-col items-start lg:items-end gap-4 max-w-xs lg:max-w-xs">
+        <p class="text-sm leading-relaxed lg:text-right" style="color: rgba(240,236,228,0.7);">
+          Wisata Desa BMJ Mojopahit hadir untuk keluarga, komunitas, dan wisatawan yang
+          ingin merasakan budaya dan alam Jawa Timur yang autentik.
+        </p>
+        <a href={NAV[1].href}
+           class="btn-primary"
+           aria-label="Pelajari lebih lanjut tentang Wisata Desa BMJ">
+          Tentang Kami →
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- TIKET -->
-  <section class="tickets-section" aria-labelledby="tickets-title">
-    <div class="tickets-header">
-      <h2 id="tickets-title" class="tickets-title">DAFTAR TIKET MASUK</h2>
-      <span class="tickets-sub">Mojokerto, Jawa Timur</span>
-    </div>
-    <ul class="ticket-grid" role="list">
-      {TICKETS.map(({ type, name, price, note }) => (
-        <li class="ticket">
-          <p class="ticket-type">{type}</p>
-          <p class="ticket-name">{name}</p>
-          <p class="ticket-price">{formatPrice(price)}</p>
-          <p class="ticket-note">{note}</p>
-        </li>
-      ))}
-    </ul>
-  </section>
+  <!-- ===== TIKET ===== -->
+  <Ticket />
 
-  <Footer />
 </BaseLayout>
-
-<style>
-.hero { position: relative; height: 560px; overflow: hidden; }
-.hero-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.5); }
-.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to right, rgba(0,0,0,0.55) 40%, transparent); }
-.hero-nums { position: absolute; right: 32px; top: 50%; transform: translateY(-50%); list-style: none; display: flex; flex-direction: column; align-items: center; gap: 6px; }
-.num { font-size: 11px; color: rgba(240,236,228,0.25); letter-spacing: 1px; }
-.num.curr { font-size: 18px; font-weight: 500; color: #f0ece4; }
-.hero-content { position: absolute; bottom: 52px; left: 32px; right: 80px; }
-.hero-title { font-family: var(--font-display); font-size: 108px; line-height: .88; letter-spacing: 2px; color: #fff; }
-.hero-title span { display: block; }
-.hero-subs { display: flex; gap: 32px; margin-top: 28px; max-width: 680px; }
-.hero-sub { flex: 1; font-size: 11px; line-height: 1.8; color: rgba(240,236,228,0.7); }
-.hero-sub strong { display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 4px; }
-.swipe-cta { display: inline-flex; align-items: center; gap: 10px; margin-top: 20px; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(240,236,228,0.45); transition: color .2s; }
-.swipe-cta:hover { color: rgba(240,236,228,0.85); }
-.swipe-line { display: inline-block; width: 40px; height: 1px; background: var(--accent); }
-
-.rec-section { background: var(--bg-surface); padding: 56px 32px; }
-.rec-header { text-align: center; margin-bottom: 36px; }
-.eyebrow { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--text-hint); margin-bottom: 8px; }
-.rec-title { font-family: var(--font-serif); font-style: italic; font-size: 30px; font-weight: 300; color: var(--text-primary); }
-.cards { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; list-style: none; }
-.card { position: relative; overflow: hidden; }
-.card a { display: block; }
-.card img { width: 100%; height: 220px; object-fit: cover; filter: brightness(0.7); transition: filter .3s, transform .4s; }
-.card:hover img { filter: brightness(.92); transform: scale(1.04); }
-.card-label { position: absolute; bottom: 0; left: 0; right: 0; padding: 32px 16px 14px; background: linear-gradient(to top, rgba(0,0,0,0.82), transparent); }
-.card-rank { font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent); margin-bottom: 3px; }
-.card-name { font-size: 13px; font-weight: 500; color: #fff; }
-
-.cta-section { position: relative; height: 400px; overflow: hidden; }
-.cta-img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.38); }
-.cta-overlay { position: absolute; inset: 0; background: rgba(10,10,10,0.45); }
-.cta-content { position: absolute; bottom: 52px; left: 32px; right: 32px; display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; }
-.cta-title { font-family: var(--font-display); font-size: 68px; line-height: .9; color: #fff; max-width: 460px; }
-.cta-right { display: flex; flex-direction: column; align-items: flex-end; gap: 16px; }
-.cta-desc { font-size: 12px; line-height: 1.8; color: rgba(240,236,228,0.6); max-width: 250px; text-align: right; }
-.btn-primary { display: inline-block; background: var(--accent); color: #fff; font-size: 11px; font-weight: 500; letter-spacing: 2px; text-transform: uppercase; padding: 12px 24px; transition: background .2s; }
-.btn-primary:hover { background: var(--accent-hover); }
-
-.tickets-section { background: var(--bg-ticket); padding: 56px 32px; }
-.tickets-header { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 28px; }
-.tickets-title { font-family: var(--font-display); font-size: 40px; letter-spacing: 2px; color: var(--text-primary); }
-.tickets-sub { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-hint); }
-.ticket-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--bg-gap); list-style: none; }
-.ticket { background: var(--bg-ticket); padding: 28px 24px; border-top: 2px solid transparent; transition: border-color .2s; }
-.ticket:hover { border-top-color: var(--accent); }
-.ticket-type { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-hint); margin-bottom: 10px; }
-.ticket-name { font-size: 16px; font-weight: 500; color: var(--text-primary); margin-bottom: 8px; }
-.ticket-price { font-family: var(--font-display); font-size: 40px; color: var(--accent); letter-spacing: 1px; }
-.ticket-note { font-size: 11px; color: var(--text-hint); margin-top: 4px; }
-</style>

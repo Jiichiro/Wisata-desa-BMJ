@@ -3,35 +3,95 @@ import { NAV, SITE } from '../data/site';
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 flex items-center justify-between px-8 py-5 border-b"
-        style="background: var(--bg-page); border-color: var(--border); backdrop-filter: blur(12px);">
+<header id="main-nav"
+        class="sticky top-0 z-50 border-b backdrop-blur-sm"
+        style="background: var(--bg-page); border-color: var(--border);"
+        role="banner">
 
-  <a href="/" class="flex items-center gap-2 text-xs font-medium tracking-widest uppercase"
-     style="color: var(--text-primary)" aria-label={SITE.name}>
-    <!-- Titik merah logo -->
-    <span class="w-2 h-2 rounded-full bg-accent flex-shrink-0" aria-hidden="true"></span>
-    {SITE.name}
-  </a>
+  <div class="flex items-center justify-between px-4 sm:px-8 py-3 sm:py-5">
 
-  <nav aria-label="Navigasi utama">
-    <ul class="flex gap-7 list-none" role="list">
+    <!-- Logo -->
+    <a href="/"
+       aria-label={`${SITE.name} — Kembali ke halaman utama`}
+       class="flex items-center gap-2 sm:gap-3 text-[11px] font-medium tracking-[3px] uppercase"
+       style="color: var(--text-primary)">
+      <img src="/images/logo.png"
+           alt="Logo Wisata Desa BMJ"
+           class="w-10 h-10 sm:w-12 sm:h-12 object-contain"
+           width="48" height="48" />
+      <span class="hidden sm:inline">{SITE.name}</span>
+      <span class="sm:hidden text-xs">{SITE.name}</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav aria-label="Navigasi utama" class="hidden md:block">
+      <ul class="flex gap-5 lg:gap-7 list-none" role="list">
+        {NAV.map(({ label, href }) => {
+          const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+          return (
+            <li>
+              <a href={href}
+                 class:list={[
+                   'text-sm tracking-wide pb-1 border-b-2 transition-colors duration-200 min-h-[44px] inline-flex items-center',
+                   isActive ? 'border-accent' : 'border-transparent',
+                 ]}
+                 style={`color: var(${isActive ? '--text-primary' : '--text-hint'})`}
+                 aria-current={isActive ? 'page' : undefined}>
+                {label}
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+
+    <!-- Kanan: theme toggle + hamburger -->
+    <div class="flex items-center gap-2 sm:gap-3">
+
+      <!-- Theme toggle -->
+      <button id="theme-toggle"
+              class="flex items-center justify-center w-11 h-11 border text-lg transition-colors duration-200 cursor-pointer rounded-sm"
+              style="border-color: var(--border); color: var(--text-hint);"
+              aria-label="Ganti tema terang/gelap"
+              aria-live="polite">
+        <i class="ti ti-sun"  id="icon-sun"  aria-hidden="true"></i>
+        <i class="ti ti-moon" id="icon-moon" aria-hidden="true"></i>
+      </button>
+
+      <!-- Tombol hamburger — hanya tampil di mobile -->
+      <button id="hamburger"
+              class="md:hidden flex flex-col justify-center items-center w-11 h-11 gap-1.5 border cursor-pointer rounded-sm"
+              style="border-color: var(--border); color: var(--text-primary);"
+              aria-label="Buka menu navigasi"
+              aria-expanded="false"
+              aria-controls="mobile-menu">
+        <span class="block w-5 h-0.5 bg-current transition-all duration-200" aria-hidden="true"></span>
+        <span class="block w-5 h-0.5 bg-current transition-all duration-200" aria-hidden="true"></span>
+        <span class="block w-5 h-0.5 bg-current transition-all duration-200" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu — hidden by default, ditampilkan JS -->
+  <nav id="mobile-menu"
+       aria-label="Navigasi mobile"
+       class="flex-col border-t md:hidden"
+       style="border-color: var(--border); background: var(--bg-surface);"
+       hidden>
+    <ul class="list-none py-2" role="list">
       {NAV.map(({ label, href }) => {
         const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
         return (
           <li>
-            <a
-              href={href}
-              class:list={[
-                'text-xs tracking-wide pb-0.5 border-b transition-colors duration-200',
-                isActive
-                  ? 'border-accent'
-                  : 'border-transparent hover:border-transparent'
-              ]}
-              style={isActive
-                ? 'color: var(--text-primary)'
-                : 'color: var(--text-hint)'}
-              aria-current={isActive ? 'page' : undefined}
-            >
+            <a href={href}
+               class:list={[
+                 'flex items-center px-6 py-4 text-base tracking-wide border-l-4 transition-colors duration-200',
+                 isActive
+                   ? 'border-l-accent font-medium'
+                   : 'border-l-transparent hover:border-l-accent/40',
+               ]}
+               style={`color: var(${isActive ? '--text-primary' : '--text-muted'})`}
+               aria-current={isActive ? 'page' : undefined}>
               {label}
             </a>
           </li>
@@ -39,25 +99,64 @@ const currentPath = Astro.url.pathname;
       })}
     </ul>
   </nav>
-
-  <!-- Theme toggle -->
-  <button
-    id="theme-toggle"
-    class="flex items-center justify-center w-8 h-8 border text-base transition-colors duration-200"
-    style="border-color: var(--border); color: var(--text-hint);"
-    aria-label="Toggle tema gelap/terang"
-  >
-    <!-- Hanya satu icon yang visible, dikontrol CSS via [data-theme] di <html> -->
-    <i class="ti ti-sun" id="icon-sun" aria-hidden="true"></i>
-    <i class="ti ti-moon" id="icon-moon" aria-hidden="true"></i>
-  </button>
 </header>
 
 <script>
-  document.getElementById('theme-toggle')?.addEventListener('click', () => {
+  // Theme toggle
+  const themeBtn = document.getElementById('theme-toggle');
+  themeBtn?.addEventListener('click', () => {
     const html = document.documentElement;
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     html.setAttribute('data-theme', next);
     localStorage.setItem('bmj-theme', next);
+    // Announce theme change to screen reader
+    themeBtn.setAttribute('aria-label', next === 'dark' ? 'Ganti ke tema terang' : 'Ganti ke tema gelap');
+  });
+
+  // Hamburger menu
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  hamburger?.addEventListener('click', () => {
+    const isOpen = mobileMenu?.hasAttribute('hidden') === false && mobileMenu?.classList.contains('open');
+    if (mobileMenu) {
+      if (mobileMenu.hidden) {
+        mobileMenu.hidden = false;
+        mobileMenu.classList.add('open');
+        hamburger.setAttribute('aria-expanded', 'true');
+        hamburger.setAttribute('aria-label', 'Tutup menu navigasi');
+        // Fokus ke link pertama di menu
+        const firstLink = mobileMenu.querySelector('a');
+        if (firstLink) (firstLink as HTMLElement).focus();
+      } else {
+        mobileMenu.hidden = true;
+        mobileMenu.classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+        hamburger.setAttribute('aria-label', 'Buka menu navigasi');
+        hamburger.focus();
+      }
+    }
+  });
+
+  // Tutup mobile menu saat klik di luar
+  document.addEventListener('click', (e) => {
+    const header = document.querySelector('header');
+    if (!header?.contains(e.target as Node) && mobileMenu && !mobileMenu.hidden) {
+      mobileMenu.hidden = true;
+      mobileMenu.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+      hamburger?.setAttribute('aria-label', 'Buka menu navigasi');
+    }
+  });
+
+  // Tutup mobile menu saat tekan Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu && !mobileMenu.hidden) {
+      mobileMenu.hidden = true;
+      mobileMenu.classList.remove('open');
+      hamburger?.setAttribute('aria-expanded', 'false');
+      hamburger?.setAttribute('aria-label', 'Buka menu navigasi');
+      hamburger?.focus();
+    }
   });
 </script>

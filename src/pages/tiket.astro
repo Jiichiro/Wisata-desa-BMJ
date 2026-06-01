@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Ticket from '../components/Ticket.astro';
+import { SITE } from '../data/site';
+---
+
+<BaseLayout
+  title="Tiket Masuk"
+  description={`Harga tiket masuk ${SITE.fullName}. Tiket dewasa Rp16.000, anak-anak Rp14.000, pelanggan Rp12.000. Termasuk cokelat candy gratis dan bebas berenang.`}
+>
+  <!-- Hero judul tiket -->
+  <div class="px-4 sm:px-8 pt-10 sm:pt-14 pb-8 sm:pb-10 border-b" style="border-color: var(--border);">
+    <p class="text-xs tracking-[3px] uppercase text-accent mb-3">Informasi Harga</p>
+    <h1 class="font-display tracking-[2px] leading-none mb-4"
+        style="font-size: clamp(2.5rem, 8vw, 4rem); color: var(--text-primary);">
+      TIKET MASUK
+    </h1>
+    <p class="text-base leading-relaxed max-w-xl" style="color: var(--text-muted);">
+      Harga tiket masuk Wisata Desa BMJ Mojopahit. Semua tiket sudah termasuk
+      gratis cokelat candy dan bebas berenang di kolam renang.
+    </p>
+  </div>
+
+  <Ticket />
+
+  <!-- Cara membeli / info tambahan -->
+  <section class="px-4 sm:px-8 py-10 sm:py-14 border-t" style="border-color: var(--border);" aria-labelledby="info-title">
+    <h2 id="info-title" class="font-display tracking-[2px] mb-6"
+        style="font-size: clamp(1.5rem, 4vw, 2rem); color: var(--text-primary);">
+      INFORMASI PEMBELIAN
+    </h2>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {[
+        {
+          icon: 'map-pin',
+          title: 'Beli di Lokasi',
+          desc: 'Tiket dapat dibeli langsung di loket masuk Wisata Desa BMJ. Tersedia setiap hari.',
+        },
+        {
+          icon: 'clock',
+          title: 'Jam Operasional',
+          desc: 'Wisata Desa BMJ buka setiap hari. Pukul 08.00 - 16.00 WIB.',
+        },
+        {
+          icon: 'phone',
+          title: 'Informasi Lebih Lanjut',
+          desc: `Hubungi kami di ${SITE.phone} untuk pemesanan rombongan atau informasi lebih lanjut.`,
+        },
+      ].map(({ icon, title, desc }) => (
+        <div class="flex items-start gap-4 p-5 border rounded-sm" style="border-color: var(--border);">
+          <i class={`ti ti-${icon} text-2xl text-accent shrink-0 mt-0.5`} aria-hidden="true"></i>
+          <div>
+            <h3 class="text-base font-semibold mb-2" style="color: var(--text-primary);">{title}</h3>
+            <p class="text-sm leading-relaxed" style="color: var(--text-muted);">{desc}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+</BaseLayout>
